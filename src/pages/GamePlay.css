@@ -132,6 +132,22 @@
   text-align: center;
 }
 
+.your-vote-badge {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #2196f3;
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.article-card.player-voted {
+  border-width: 4px;
+  box-shadow: 0 0 0 2px #2196f3;
+}
+
 .voted-message {
   text-align: center;
   padding: 1.5rem;
