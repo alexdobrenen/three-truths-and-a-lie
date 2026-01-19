@@ -27,7 +27,7 @@ function App() {
   }
 
   return (
-    <Router>
+    <Router basename="/three-truths-and-a-lie">
       <div className="app">
         <Routes>
           <Route path="/" element={<Home />} />
