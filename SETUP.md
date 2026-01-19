@@ -7,7 +7,6 @@ This guide will walk you through setting up the Three Truths and a Lie applicati
 Before you begin, make sure you have:
 - Node.js v18 or higher installed
 - A Supabase account (free tier works fine)
-- A News API key (optional - the app will use mock data if not provided)
 
 ## Step 1: Install Dependencies
 
@@ -48,13 +47,38 @@ npm install
    - **Project URL** (looks like `https://xxxxx.supabase.co`)
    - **anon/public key** (under "Project API keys")
 
-## Step 3: Set Up News API (Optional)
+## Step 3: Add Your Headlines
 
-The app can work without a News API key by using mock data, but for real news articles:
+The app uses headlines from a JSON file that you can customize:
 
-1. Go to [newsapi.org](https://newsapi.org/)
-2. Click "Get API Key" and sign up for a free account
-3. Copy your API key
+1. Open `public/headlines.json` in your code editor
+2. The file contains rounds of headlines - each round has:
+   - 3 true headlines (with title, URL, and source)
+   - 1 fake headline (with title and source)
+3. You can add as many rounds as you want
+4. The game will cycle through the rounds automatically
+
+Example structure:
+```json
+{
+  "rounds": [
+    {
+      "id": 1,
+      "trueHeadlines": [
+        {
+          "title": "Your real headline here",
+          "url": "https://example.com/article",
+          "source": "News Source"
+        }
+      ],
+      "fakeHeadline": {
+        "title": "Your fake headline here",
+        "source": "Fake News"
+      }
+    }
+  ]
+}
+```
 
 ## Step 4: Configure Environment Variables
 
@@ -67,13 +91,11 @@ The app can work without a News API key by using mock data, but for real news ar
    ```
    VITE_SUPABASE_URL=your_supabase_project_url
    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-   VITE_NEWS_API_KEY=your_news_api_key
    ```
 
    Replace:
    - `your_supabase_project_url` with the Project URL from Step 2
    - `your_supabase_anon_key` with the anon/public key from Step 2
-   - `your_news_api_key` with your News API key from Step 3 (or leave blank to use mock data)
 
 ## Step 5: Run the Application
 
@@ -104,9 +126,9 @@ The application will start at `http://localhost:5173`
 ### Play the Game
 
 1. As the host, click "Start Game" when ready
-2. The game will display 4 articles (3 real news, 1 fake)
-3. You have 60 seconds to vote on which article is the lie
-4. Click on an article to vote
+2. The game will display 4 headlines (3 true, 1 fake) from your `headlines.json` file
+3. You have 60 seconds to vote on which headline is the lie
+4. Click on a headline to vote
 5. After time expires, results are shown
 6. View the dashboard to see team and player statistics
 
@@ -120,10 +142,11 @@ The application will start at `http://localhost:5173`
 - Make sure your phone is on the same network
 - Try using the URL directly instead of scanning
 
-### No articles showing
-- If you didn't provide a News API key, the app will use mock data
-- Check browser console for any errors
-- Make sure your News API key is valid
+### No headlines showing or using mock data
+- Make sure `public/headlines.json` exists and is valid JSON
+- Check browser console for any errors loading the file
+- Verify the JSON structure matches the expected format
+- The app will fall back to mock data if the headlines file can't be loaded
 
 ### Database errors
 - Verify you ran the `schema.sql` script correctly
@@ -143,9 +166,9 @@ You can add more teams directly in Supabase:
 
 ### Customize the Game
 
-- Modify `src/services/newsService.ts` to use a different news source
+- Edit `public/headlines.json` to add your own headlines
 - Adjust the timer duration in `src/pages/GamePlay.tsx`
-- Update the lie generation templates in `src/services/newsService.ts`
+- Update the fallback mock data in `src/services/newsService.ts` if needed
 
 ## Deployment
 

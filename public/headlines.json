@@ -1,0 +1,76 @@
+{
+  "rounds": [
+    {
+      "id": 1,
+      "trueHeadlines": [
+        {
+          "title": "Global Climate Summit Reaches Historic Agreement on Carbon Emissions",
+          "url": "https://example.com/climate-summit",
+          "source": "World News Daily"
+        },
+        {
+          "title": "Tech Giant Announces Revolutionary Quantum Computing Breakthrough",
+          "url": "https://example.com/quantum-computing",
+          "source": "Tech Today"
+        },
+        {
+          "title": "New Medical Treatment Shows Promise in Clinical Trials for Rare Disease",
+          "url": "https://example.com/medical-treatment",
+          "source": "Health Journal"
+        }
+      ],
+      "fakeHeadline": {
+        "title": "Scientists Discover That Trees Can Now Walk at Night, Local Parks on High Alert",
+        "source": "Fake News"
+      }
+    },
+    {
+      "id": 2,
+      "trueHeadlines": [
+        {
+          "title": "Major Sports Team Wins Championship After Decades-Long Drought",
+          "url": "https://example.com/sports-championship",
+          "source": "Sports Network"
+        },
+        {
+          "title": "Archaeological Team Discovers Ancient City Buried Under Desert Sands",
+          "url": "https://example.com/archaeology",
+          "source": "History Today"
+        },
+        {
+          "title": "Space Agency Announces Plans for First Crewed Mission to Mars",
+          "url": "https://example.com/mars-mission",
+          "source": "Space News"
+        }
+      ],
+      "fakeHeadline": {
+        "title": "Breaking: International Space Station Accidentally Left in Uber, NASA Scrambles to Retrieve",
+        "source": "Fake News"
+      }
+    },
+    {
+      "id": 3,
+      "trueHeadlines": [
+        {
+          "title": "Renewable Energy Now Accounts for 40% of Global Power Generation",
+          "url": "https://example.com/renewable-energy",
+          "source": "Energy Times"
+        },
+        {
+          "title": "Major Film Studio Announces Record-Breaking Box Office Weekend",
+          "url": "https://example.com/box-office",
+          "source": "Entertainment Weekly"
+        },
+        {
+          "title": "Scientists Make Breakthrough in Understanding Dark Matter Properties",
+          "url": "https://example.com/dark-matter",
+          "source": "Science Daily"
+        }
+      ],
+      "fakeHeadline": {
+        "title": "Study Finds That Cats Have Been Secretly Running the Internet All Along",
+        "source": "Fake News"
+      }
+    }
+  ]
+}
