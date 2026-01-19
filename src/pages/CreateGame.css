@@ -141,11 +141,12 @@
 .waiting-message {
   margin-top: 1rem;
   padding: 1rem;
-  background: #2a2a1a;
+  background: transparent;
   border-radius: 8px;
-  border: 2px solid #ffc107;
-  color: #ffc107;
-  font-weight: 600;
+  border: none;
+  color: #999;
+  font-weight: 400;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
