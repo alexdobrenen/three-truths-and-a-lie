@@ -28,6 +28,7 @@ function GamePlay() {
   const [roundStartTime, setRoundStartTime] = useState<string | null>(null);
   const [playerWasCorrect, setPlayerWasCorrect] = useState<boolean | null>(null);
   const [nonVoterCount, setNonVoterCount] = useState(0);
+  const [playerGuess, setPlayerGuess] = useState<number | null>(null);
 
   useEffect(() => {
     console.log('GamePlay mounted - gameId:', gameId, 'playerId:', playerId);
@@ -257,6 +258,7 @@ function GamePlay() {
             is_correct: false,
           });
         setPlayerWasCorrect(false);
+        setPlayerGuess(0); // No guess made
       } catch (error) {
         console.error('Error recording non-vote:', error);
       }
@@ -275,7 +277,7 @@ function GamePlay() {
     try {
       const { data, error } = await supabase
         .from('player_guesses')
-        .select('is_correct')
+        .select('is_correct, guess')
         .eq('game_round_id', roundId)
         .eq('player_id', playerId)
         .single();
@@ -287,6 +289,7 @@ function GamePlay() {
 
       if (data) {
         setPlayerWasCorrect(data.is_correct);
+        setPlayerGuess(data.guess);
       }
     } catch (error) {
       console.error('Error fetching player result:', error);
@@ -341,7 +344,7 @@ function GamePlay() {
               selectedArticle === article.position ? 'selected' : ''
             } ${showResults && article.isLie ? 'lie-article' : ''} ${
               showResults && !article.isLie ? 'true-article' : ''
-            }`}
+            } ${showResults && playerGuess === article.position ? 'player-voted' : ''}`}
             onClick={() => !showResults && handleVote(article.position)}
           >
             <div className="article-number">Article {article.position}</div>
@@ -356,6 +359,9 @@ function GamePlay() {
               >
                 Read more
               </a>
+            )}
+            {showResults && playerGuess === article.position && (
+              <div className="your-vote-badge">Your Vote</div>
             )}
             {showResults && (
               <div className="vote-count">
