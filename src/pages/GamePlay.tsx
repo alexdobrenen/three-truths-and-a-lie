@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { fetchTrueArticles, generateLieArticle, type Article } from '../services/newsService';
+import { fetchArticlesAndGenerateLie, type Article } from '../services/newsService';
 import './GamePlay.css';
 
 interface ArticleWithPosition extends Article {
@@ -126,13 +126,13 @@ function GamePlay() {
         setRoundInitialized(true);
       } else if (!roundInitialized) {
         console.log('No existing round, creating new one...');
-        const trueArticles = await fetchTrueArticles();
-        const lieArticle = generateLieArticle();
+        const { trueArticles, lieArticle } = await fetchArticlesAndGenerateLie();
         console.log('Articles fetched:', trueArticles.length, 'true articles');
+        console.log('Fake headline generated:', lieArticle);
 
         const allArticles = [
           ...trueArticles,
-          { title: lieArticle, url: '', source: 'Fake News' },
+          { title: lieArticle, url: '', source: 'AI Generated' },
         ];
 
         const shuffled = shuffleArray(allArticles);
