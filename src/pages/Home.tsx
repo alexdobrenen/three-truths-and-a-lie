@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
+import titleImage from '../assets/three-truths-and-a-lie-title.png';
 
 function Home() {
   const navigate = useNavigate();
 
   return (
     <div className="home-container">
-      <h1>Three Truths and a Lie</h1>
-      <p className="subtitle">Test your news knowledge with your team!</p>
+      <img src={titleImage} alt="Three Truths and a Lie" style={{ maxWidth: '600px', width: '100%', marginBottom: '2rem' }} />
 
       <div className="button-container">
         <button

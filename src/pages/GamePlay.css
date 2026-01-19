@@ -2,6 +2,8 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+  background-color: #000;
+  min-height: 100vh;
 }
 
 .game-header {
@@ -13,17 +15,17 @@
 
 .game-header h1 {
   font-size: 2rem;
-  color: #333;
+  color: #fff;
 }
 
 .timer {
   font-size: 2rem;
   font-weight: bold;
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #1a1a1a;
   color: white;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  border: 2px solid #333;
 }
 
 .timer-warning {
@@ -43,7 +45,7 @@
 .instructions {
   text-align: center;
   font-size: 1.2rem;
-  color: #666;
+  color: #999;
   margin-bottom: 2rem;
 }
 
@@ -55,34 +57,33 @@
 }
 
 .article-card {
-  background: white;
+  background: #1a1a1a;
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 3px solid transparent;
+  border: 3px solid #333;
   position: relative;
 }
 
 .article-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-color: #444;
 }
 
 .article-card.selected {
   border-color: #667eea;
-  background: #f5f7ff;
+  background: #1a1a2a;
 }
 
 .article-card.lie-article {
-  border-color: #ff4444;
-  background: #fff5f5;
+  border-color: #333;
+  background: #1a1a1a;
 }
 
 .article-card.true-article {
-  border-color: #4caf50;
-  background: #f5fff5;
+  border-color: #333;
+  background: #1a1a1a;
 }
 
 .article-number {
@@ -94,7 +95,7 @@
 
 .article-title {
   font-size: 1.1rem;
-  color: #333;
+  color: #fff;
   margin-bottom: 1rem;
   line-height: 1.4;
 }
@@ -119,18 +120,40 @@
 .vote-count {
   margin-top: 1rem;
   font-weight: 600;
-  color: #666;
+  color: #999;
   font-size: 0.9rem;
 }
 
 .lie-badge {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
-  background: #ff4444;
-  color: white;
-  border-radius: 6px;
+  background: #1a2a1a;
+  color: #4caf50;
+  border: 2px solid #4caf50;
+  border-radius: 20px;
   font-weight: 600;
   text-align: center;
+  font-size: 0.9rem;
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.true-badge {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: #2a2a2a;
+  color: #666;
+  border: 2px solid #666;
+  border-radius: 20px;
+  font-weight: 600;
+  text-align: center;
+  font-size: 0.9rem;
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .vote-checkmark {
@@ -170,13 +193,14 @@
 .voted-message {
   text-align: center;
   padding: 1.5rem;
-  background: #e8f5e9;
+  background: #2a2a2a;
+  border: 2px solid #666;
   border-radius: 12px;
   margin-bottom: 2rem;
 }
 
 .voted-message p {
-  color: #2e7d32;
+  color: #fff;
   font-weight: 600;
   margin: 0;
 }
@@ -188,18 +212,19 @@
   margin-bottom: 2rem;
   font-size: 2rem;
   font-weight: bold;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   animation: fadeIn 0.5s ease;
 }
 
 .player-result.correct {
-  background: #4caf50;
-  color: white;
+  background: #1a2a1a;
+  border: 2px solid #4caf50;
+  color: #4caf50;
 }
 
 .player-result.incorrect {
-  background: #f44336;
-  color: white;
+  background: #2a1a1a;
+  border: 2px solid #ff4444;
+  color: #ff4444;
 }
 
 @keyframes fadeIn {
@@ -216,14 +241,14 @@
 .non-voter-message {
   text-align: center;
   padding: 1rem;
-  background: #fff3cd;
+  background: #2a2a1a;
   border: 2px solid #ffc107;
   border-radius: 8px;
   margin-bottom: 2rem;
 }
 
 .non-voter-message p {
-  color: #856404;
+  color: #ffc107;
   font-weight: 600;
   margin: 0;
   font-size: 1rem;

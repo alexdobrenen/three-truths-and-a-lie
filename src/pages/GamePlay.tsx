@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { fetchArticlesAndGenerateLie, type Article } from '../services/newsService';
+import titleImage from '../assets/three-truths-and-a-lie-title.png';
 import './GamePlay.css';
 
 interface ArticleWithPosition extends Article {
@@ -412,7 +413,7 @@ function GamePlay() {
   return (
     <div className="game-play-container">
       <div className="game-header">
-        <h1>Three Truths and a Lie</h1>
+        <img src={titleImage} alt="Three Truths and a Lie" style={{ maxWidth: '400px', width: '100%' }} />
         {!showResults && (
           <div className="timer">
             <span className={timeRemaining <= 10 ? 'timer-warning' : ''}>
@@ -466,7 +467,10 @@ function GamePlay() {
               </div>
             )}
             {showResults && article.isLie && (
-              <div className="lie-badge">This was the lie!</div>
+              <div className="lie-badge">Lie</div>
+            )}
+            {showResults && !article.isLie && (
+              <div className="true-badge">Truth</div>
             )}
           </div>
         ))}

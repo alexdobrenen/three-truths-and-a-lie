@@ -1,6 +1,6 @@
 .app {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background-color: #000;
 }
 
 .primary-button,
@@ -16,13 +16,15 @@
 }
 
 .primary-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #1a1a1a;
   color: white;
+  border: 2px solid #333;
 }
 
 .primary-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+  background: #2a2a2a;
+  border-color: #444;
 }
 
 .primary-button:disabled {
@@ -31,14 +33,15 @@
 }
 
 .secondary-button {
-  background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
+  background: transparent;
+  color: #fff;
+  border: 2px solid #333;
 }
 
 .secondary-button:hover:not(:disabled) {
-  background: #f5f7ff;
+  background: #1a1a1a;
   transform: translateY(-2px);
+  border-color: #444;
 }
 
 .secondary-button:disabled {

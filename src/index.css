@@ -19,10 +19,12 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  color: #333;
+  background-color: #000;
+  color: #fff;
 }
 
 #root {
   width: 100%;
   min-height: 100vh;
+  background-color: #000;
 }
