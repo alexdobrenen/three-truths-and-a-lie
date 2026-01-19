@@ -141,10 +141,21 @@ function GamePlay() {
 
       console.log('No existing round, creating new one...');
 
+      // Fetch used round IDs for this game session
+      const { data: usedRounds } = await supabase
+        .from('game_rounds')
+        .select('headlines_round_id')
+        .eq('game_session_id', gameId)
+        .not('headlines_round_id', 'is', null);
+
+      const usedRoundIds = usedRounds?.map(r => r.headlines_round_id).filter((id): id is number => id !== null) || [];
+      console.log(`📊 Already used ${usedRoundIds.length} rounds in this game:`, usedRoundIds);
+
       // Fetch articles first before attempting database insert
-      const { trueArticles, lieArticle } = await fetchArticlesAndGenerateLie();
+      const { trueArticles, lieArticle, roundId: headlinesRoundId } = await fetchArticlesAndGenerateLie(usedRoundIds);
       console.log('Articles fetched:', trueArticles.length, 'true articles');
       console.log('Fake headline generated:', lieArticle);
+      console.log('Using headlines round ID:', headlinesRoundId);
 
       const allArticles = [
         ...trueArticles,
@@ -177,6 +188,7 @@ function GamePlay() {
               true_article_3_url: shuffled[2].url || 'none',
               lie_article: shuffled[3].title,
               correct_answer: liePosition,
+              headlines_round_id: headlinesRoundId,
             })
             .select()
             .single();
@@ -443,7 +455,7 @@ function GamePlay() {
           >
             <div className="article-number">Article {article.position}</div>
             <h3 className="article-title">{article.title}</h3>
-            {article.url && article.url !== 'none' && !showResults && (
+            {article.url && article.url !== 'none' && showResults && !article.isLie && (
               <a
                 href={article.url}
                 target="_blank"
@@ -451,7 +463,7 @@ function GamePlay() {
                 className="article-link"
                 onClick={(e) => e.stopPropagation()}
               >
-                Read more
+                Article Link
               </a>
             )}
             {(showResults ? (playerGuess === article.position || (!playerGuess && selectedArticle === article.position)) : selectedArticle === article.position) && (

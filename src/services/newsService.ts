@@ -7,6 +7,7 @@ export interface Article {
 interface NewsWithLie {
   trueArticles: Article[];
   lieArticle: string;
+  roundId: number;
 }
 
 interface HeadlineRound {
@@ -27,7 +28,6 @@ interface HeadlinesData {
 }
 
 let headlinesData: HeadlinesData | null = null;
-let currentRoundIndex = 0;
 
 async function loadHeadlines(): Promise<HeadlinesData> {
   if (headlinesData) {
@@ -51,14 +51,21 @@ async function loadHeadlines(): Promise<HeadlinesData> {
   return headlinesData!;
 }
 
-export async function fetchArticlesAndGenerateLie(): Promise<NewsWithLie> {
+export async function fetchArticlesAndGenerateLie(usedRoundIds: number[] = []): Promise<NewsWithLie> {
   const data = await loadHeadlines();
 
-  // Get the next round (cycle through available rounds)
-  const round = data.rounds[currentRoundIndex % data.rounds.length];
-  currentRoundIndex++;
+  // Filter out rounds that have already been used in this game
+  const availableRounds = data.rounds.filter(round => !usedRoundIds.includes(round.id));
 
-  console.log(`📰 Using round ${round.id}`);
+  if (availableRounds.length === 0) {
+    throw new Error('No more unused rounds available. All rounds have been used in this game.');
+  }
+
+  // Select a random round from the available ones
+  const randomIndex = Math.floor(Math.random() * availableRounds.length);
+  const round = availableRounds[randomIndex];
+
+  console.log(`📰 Using round ${round.id} (${usedRoundIds.length} rounds already used)`);
 
   const trueArticles: Article[] = round.trueHeadlines.map((headline) => ({
     title: headline.title,
@@ -69,5 +76,6 @@ export async function fetchArticlesAndGenerateLie(): Promise<NewsWithLie> {
   return {
     trueArticles,
     lieArticle: round.fakeHeadline.title,
+    roundId: round.id,
   };
 }
