@@ -159,7 +159,7 @@ function CreateGame() {
     return null;
   }
 
-  const joinUrl = `${window.location.origin}/join/${gameId}`;
+  const joinUrl = `${window.location.origin}${import.meta.env.BASE_URL}join/${gameId}`;
 
   return (
     <div className="create-game-container">
