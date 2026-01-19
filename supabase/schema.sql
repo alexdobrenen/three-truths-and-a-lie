@@ -53,7 +53,7 @@ CREATE TABLE player_guesses (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   game_round_id UUID REFERENCES game_rounds(id) ON DELETE CASCADE,
   player_id UUID REFERENCES players(id) ON DELETE CASCADE,
-  guess INTEGER CHECK (guess BETWEEN 1 AND 4) NOT NULL,
+  guess INTEGER CHECK (guess BETWEEN 0 AND 4) NOT NULL,
   is_correct BOOLEAN NOT NULL,
   guessed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   UNIQUE(game_round_id, player_id)

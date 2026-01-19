@@ -137,16 +137,17 @@
   position: absolute;
   top: 12px;
   right: 12px;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   background: #2196f3;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.4);
+  box-shadow: 0 4px 16px rgba(33, 150, 243, 0.6);
   animation: checkmarkPop 0.3s ease;
+  z-index: 10;
 }
 
 @keyframes checkmarkPop {
