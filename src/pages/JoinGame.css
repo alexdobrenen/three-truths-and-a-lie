@@ -3,16 +3,18 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  min-height: 100vh;
+  background-color: #000;
 }
 
 .join-game-container h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: #fff;
 }
 
 .join-game-container p {
-  color: #666;
+  color: #999;
   margin-bottom: 2rem;
 }
 
@@ -40,14 +42,14 @@
   width: 100%;
   padding: 1rem;
   font-size: 1rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid #333;
   border-radius: 8px;
-  background: white;
-  color: #333;
+  background: #1a1a1a;
+  color: #fff;
   cursor: pointer;
   transition: all 0.2s ease;
   appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 1.5rem;
@@ -55,20 +57,25 @@
 }
 
 .player-dropdown:hover:not(:disabled) {
-  border-color: #667eea;
-  background-color: #f8f9ff;
+  border-color: #444;
+  background-color: #2a2a2a;
 }
 
 .player-dropdown:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #444;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
 }
 
 .player-dropdown:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  background-color: #f5f5f5;
+  background-color: #0a0a0a;
+}
+
+.player-dropdown option {
+  background-color: #1a1a1a;
+  color: #fff;
 }
 
 .secondary-button {
@@ -76,9 +83,9 @@
   padding: 1rem 2rem;
   font-size: 1rem;
   font-weight: 600;
-  background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
+  background: transparent;
+  color: #fff;
+  border: 2px solid #333;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -86,9 +93,9 @@
 }
 
 .secondary-button:hover:not(:disabled) {
-  background: #f8f9ff;
+  background: #1a1a1a;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+  border-color: #444;
 }
 
 .secondary-button:disabled {
