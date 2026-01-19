@@ -34,26 +34,21 @@ async function loadHeadlines(): Promise<HeadlinesData> {
     return headlinesData;
   }
 
-  try {
-    console.log('📰 Loading headlines from JSON...');
-    // Use import.meta.env.BASE_URL to handle both dev and production paths
-    const baseUrl = import.meta.env.BASE_URL || '/';
-    const headlinesUrl = `${baseUrl}headlines.json`;
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  const headlinesUrl = `${baseUrl}headlines.json`;
 
-    console.log('🔗 Fetching from:', headlinesUrl);
-    const response = await fetch(headlinesUrl);
+  console.log('📰 Loading headlines from:', headlinesUrl);
 
-    if (!response.ok) {
-      throw new Error(`Failed to load headlines: ${response.status}`);
-    }
+  const response = await fetch(headlinesUrl);
 
-    headlinesData = await response.json();
-    console.log(`✅ Loaded ${headlinesData!.rounds.length} rounds of headlines`);
-    return headlinesData!;
-  } catch (error) {
-    console.error('❌ Error loading headlines:', error);
-    throw error;
+  if (!response.ok) {
+    throw new Error(`Failed to load headlines: ${response.status}`);
   }
+
+  headlinesData = await response.json();
+  console.log(`✅ Loaded ${headlinesData!.rounds.length} rounds of headlines`);
+
+  return headlinesData!;
 }
 
 export async function fetchArticlesAndGenerateLie(): Promise<NewsWithLie> {
@@ -63,7 +58,7 @@ export async function fetchArticlesAndGenerateLie(): Promise<NewsWithLie> {
   const round = data.rounds[currentRoundIndex % data.rounds.length];
   currentRoundIndex++;
 
-  console.log(`📰 Using round ${round.id} headlines`);
+  console.log(`📰 Using round ${round.id}`);
 
   const trueArticles: Article[] = round.trueHeadlines.map((headline) => ({
     title: headline.title,
@@ -75,15 +70,4 @@ export async function fetchArticlesAndGenerateLie(): Promise<NewsWithLie> {
     trueArticles,
     lieArticle: round.fakeHeadline.title,
   };
-}
-
-// Legacy exports for backwards compatibility
-export async function fetchTrueArticles(): Promise<Article[]> {
-  const result = await fetchArticlesAndGenerateLie();
-  return result.trueArticles;
-}
-
-export async function generateLieArticle(): Promise<string> {
-  const result = await fetchArticlesAndGenerateLie();
-  return result.lieArticle;
 }

@@ -4,23 +4,23 @@
       "id": 1,
       "trueHeadlines": [
         {
-          "title": "Global Climate Summit Reaches Historic Agreement on Carbon Emissions",
-          "url": "https://example.com/climate-summit",
-          "source": "World News Daily"
+          "title": "AI Police Report Generator Claims Officer Was Turned Into a Frog",
+          "url": "https://www.upi.com/Odd_News/2026/01/05/Heber-City-Police-Department-AI-program-officer-frog/9641767634540/",
+          "source": "UPI Odd News"
         },
         {
-          "title": "Tech Giant Announces Revolutionary Quantum Computing Breakthrough",
-          "url": "https://example.com/quantum-computing",
-          "source": "Tech Today"
+          "title": "Scientists Discover 'Ghost Galaxy' Made Entirely of Dark Matter With No Stars",
+          "url": "https://www.sciencedaily.com/releases/2026/01/260109220500.htm",
+          "source": "Science Daily"
         },
         {
-          "title": "New Medical Treatment Shows Promise in Clinical Trials for Rare Disease",
-          "url": "https://example.com/medical-treatment",
-          "source": "Health Journal"
+          "title": "Drunk Raccoon Passes Out on Bathroom Floor After Breaking Into Virginia Liquor Store",
+          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
+          "source": "Patch"
         }
       ],
       "fakeHeadline": {
-        "title": "Scientists Discover That Trees Can Now Walk at Night, Local Parks on High Alert",
+        "title": "Meteorologists Confirm Clouds Are Now Downloading Updates, Causing Unexpected Rain Delays",
         "source": "Fake News"
       }
     },
@@ -28,23 +28,23 @@
       "id": 2,
       "trueHeadlines": [
         {
-          "title": "Major Sports Team Wins Championship After Decades-Long Drought",
-          "url": "https://example.com/sports-championship",
-          "source": "Sports Network"
+          "title": "Brand New Species of Worm Discovered Living in Great Salt Lake's Extreme Salinity",
+          "url": "https://www.sciencedaily.com/releases/2026/01/260110211227.htm",
+          "source": "Science Daily"
         },
         {
-          "title": "Archaeological Team Discovers Ancient City Buried Under Desert Sands",
-          "url": "https://example.com/archaeology",
-          "source": "History Today"
+          "title": "Parrot Solves 15-Year-Old Cold Case Murder by Repeatedly Saying Suspect's Name",
+          "url": "https://probrainrot.com/bizarre-oddball-news/october-unusual-news-bizarre-2025/",
+          "source": "Pro Brain Rot"
         },
         {
-          "title": "Space Agency Announces Plans for First Crewed Mission to Mars",
-          "url": "https://example.com/mars-mission",
-          "source": "Space News"
+          "title": "500-Pound Black Bear Squatting in Crawl Space Under California Home Refuses to Leave",
+          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
+          "source": "Patch"
         }
       ],
       "fakeHeadline": {
-        "title": "Breaking: International Space Station Accidentally Left in Uber, NASA Scrambles to Retrieve",
+        "title": "Local Library Fines Now Payable in Interpretive Dance Performances",
         "source": "Fake News"
       }
     },
@@ -52,23 +52,191 @@
       "id": 3,
       "trueHeadlines": [
         {
-          "title": "Renewable Energy Now Accounts for 40% of Global Power Generation",
-          "url": "https://example.com/renewable-energy",
-          "source": "Energy Times"
+          "title": "Missing Flight Attendant Found Dancing Naked in British Airways Business Class Washroom",
+          "url": "https://www.youtube.com/watch?v=qlwIvfw1XXo",
+          "source": "What a Weird Week"
         },
         {
-          "title": "Major Film Studio Announces Record-Breaking Box Office Weekend",
-          "url": "https://example.com/box-office",
-          "source": "Entertainment Weekly"
+          "title": "Giant Phantom Jellyfish 33 Feet Long Captured on Camera for First Time",
+          "url": "https://www.youtube.com/watch?v=O9xm8SFyGaY",
+          "source": "What a Weird Week"
         },
         {
-          "title": "Scientists Make Breakthrough in Understanding Dark Matter Properties",
-          "url": "https://example.com/dark-matter",
+          "title": "Quantum Mystery Solved: Scientists Discover Emergent Photons in 3D Quantum Spin Liquid",
+          "url": "https://www.sciencedaily.com/releases/2025/12/251217082509.htm",
           "source": "Science Daily"
         }
       ],
       "fakeHeadline": {
-        "title": "Study Finds That Cats Have Been Secretly Running the Internet All Along",
+        "title": "Dentists Announce Teeth Now Eligible for Frequent Flyer Miles",
+        "source": "Fake News"
+      }
+    },
+    {
+      "id": 4,
+      "trueHeadlines": [
+        {
+          "title": "Woman Wakes Up Alive in Her Own Coffin Just Before Burial in Thailand",
+          "url": "https://en.yenisafak.com/world/year-in-review-the-bizarre-and-shocking-headlines-of-2025-3712671",
+          "source": "Yeni Safak"
+        },
+        {
+          "title": "Star Near Black Hole Spinning Faster Than It Should, May Have Merged With Another Star",
+          "url": "https://www.sciencedaily.com/releases/2025/12/251225080730.htm",
+          "source": "Science Daily"
+        },
+        {
+          "title": "Dog Undergoes Surgery to Remove 44 Items Including 24 Socks From Its Intestines",
+          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
+          "source": "Patch"
+        }
+      ],
+      "fakeHeadline": {
+        "title": "Scientists Prove That Yawning Is Actually Your Body Attempting to Install Software Updates",
+        "source": "Fake News"
+      }
+    },
+    {
+      "id": 5,
+      "trueHeadlines": [
+        {
+          "title": "Two Bald Eagles Locked in Talons Battle From Sky to Ground, Refuse to Let Go",
+          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
+          "source": "Patch"
+        },
+        {
+          "title": "Coyote Yanked by Tail From Aldi Refrigerator Shelves After Hiding in Produce Section",
+          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
+          "source": "Patch"
+        },
+        {
+          "title": "Scientists May Have Extracted Leonardo da Vinci's DNA From Renaissance Drawing",
+          "url": "https://www.livescience.com/health/genetics/leonardo-da-vincis-dna-may-be-embedded-in-his-art-and-scientists-think-theyve-managed-to-extract-some",
+          "source": "Live Science"
+        }
+      ],
+      "fakeHeadline": {
+        "title": "New Study Finds That Looking Both Ways Before Crossing Street Confuses Cars Into Not Moving",
+        "source": "Fake News"
+      }
+    },
+    {
+      "id": 6,
+      "trueHeadlines": [
+        {
+          "title": "Hikers on Psilocybin Mushrooms Hallucinate Friend's Death, Call 911 on Alive Person",
+          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
+          "source": "Patch"
+        },
+        {
+          "title": "Man Discovers He's Been Legally Dead for 5 Years, Struggles to Prove He's Alive",
+          "url": "https://probrainrot.com/bizarre-oddball-news/weird-news-stories-2025/",
+          "source": "Pro Brain Rot"
+        },
+        {
+          "title": "First Baby Born in Italian Village in Almost 30 Years",
+          "url": "https://www.uexpress.com/oddities/news-of-the-weird/2026/01/02",
+          "source": "The Guardian"
+        }
+      ],
+      "fakeHeadline": {
+        "title": "Grocery Stores Now Offering 'Express Lane' for Customers Who Only Need to Complain",
+        "source": "Fake News"
+      }
+    },
+    {
+      "id": 7,
+      "trueHeadlines": [
+        {
+          "title": "Massachusetts Woman Racks Up Thousands in Medical Bills After Bat Flies Into Her Mouth",
+          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
+          "source": "Patch"
+        },
+        {
+          "title": "Michigan Man Dies of Rabies After Contracting Disease From Organ Transplant",
+          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
+          "source": "Patch"
+        },
+        {
+          "title": "Drunk Thief Returns Stolen Mandolins With Note Reading 'SORRY, I BEEN DRUNK, MERRY CHRISTMAS'",
+          "url": "https://abcnews.go.com/US/drunk-thief-returns-stolen-mandolins-new-jersey-guitar/story?id=128748055",
+          "source": "ABC News"
+        }
+      ],
+      "fakeHeadline": {
+        "title": "Mirrors Nationwide Begin Showing People as They Actually Look, Causing Mass Panic",
+        "source": "Fake News"
+      }
+    },
+    {
+      "id": 8,
+      "trueHeadlines": [
+        {
+          "title": "Kayakers Film 'Raining Monkeys' as Dozens of Macaques Dive From Trees Into Florida River",
+          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
+          "source": "Patch"
+        },
+        {
+          "title": "Goldfish the Size of Football Found After Growing to Ginormous Proportions in Wild",
+          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
+          "source": "U.S. Fish and Wildlife"
+        },
+        {
+          "title": "Lottery Winner Discovers $14 Million Ticket in Old Jacket 5 Years Later, Still Valid",
+          "url": "https://probrainrot.com/bizarre-oddball-news/october-unusual-news-bizarre-2025/",
+          "source": "Pro Brain Rot"
+        }
+      ],
+      "fakeHeadline": {
+        "title": "Traffic Lights Admit They've Been Guessing This Whole Time",
+        "source": "Fake News"
+      }
+    },
+    {
+      "id": 9,
+      "trueHeadlines": [
+        {
+          "title": "Entire Town's Clocks Stop Simultaneously at 3:47 AM in Scottish Village",
+          "url": "https://probrainrot.com/bizarre-oddball-news/october-unusual-news-bizarre-2025/",
+          "source": "Pro Brain Rot"
+        },
+        {
+          "title": "Archaeological Dig Uncovers Modern iPhone in 2,000-Year-Old Sealed Chamber",
+          "url": "https://probrainrot.com/bizarre-oddball-news/october-unusual-news-bizarre-2025/",
+          "source": "Pro Brain Rot"
+        },
+        {
+          "title": "Thousands of Mysterious Old-Fashioned Shoes Wash Up on Beach in Wales",
+          "url": "https://www.foxnews.com/category/odd-news",
+          "source": "Fox News"
+        }
+      ],
+      "fakeHeadline": {
+        "title": "Scientists Confirm That 'Five More Minutes' of Sleep Actually Equals 47 Seconds",
+        "source": "Fake News"
+      }
+    },
+    {
+      "id": 10,
+      "trueHeadlines": [
+        {
+          "title": "Cat Re-Elected Mayor for Fourth Term With 87% Approval Rating in California Town",
+          "url": "https://probrainrot.com/bizarre-oddball-news/october-unusual-news-bizarre-2025/",
+          "source": "Pro Brain Rot"
+        },
+        {
+          "title": "Entire Office of 47 Employees Quits Simultaneously During Single Meeting",
+          "url": "https://probrainrot.com/bizarre-oddball-news/october-unusual-news-bizarre-2025/",
+          "source": "Pro Brain Rot"
+        },
+        {
+          "title": "Missing Wallaby Spotted in Walmart Parking Lot After Hopping Away From New Jersey Farm",
+          "url": "https://www.foxnews.com/category/odd-news",
+          "source": "Fox News"
+        }
+      ],
+      "fakeHeadline": {
+        "title": "Breaking: Socks Officially Declare Independence From Dryers, Form Sovereign Nation",
         "source": "Fake News"
       }
     }
