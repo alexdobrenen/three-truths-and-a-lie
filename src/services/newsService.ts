@@ -1,8 +1,6 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
-
 const NEWS_API_KEY = import.meta.env.VITE_NEWS_API_KEY;
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const NEWS_API_URL = 'https://newsapi.org/v2/top-headlines';
+const NEWS_API_URL = 'https://newsapi.org/v2/everything';
 
 export interface Article {
   title: string;
@@ -16,8 +14,10 @@ interface NewsWithLie {
 }
 
 export async function fetchArticlesAndGenerateLie(): Promise<NewsWithLie> {
+  console.log('🤖 Gemini API key present:', !!GEMINI_API_KEY);
+
   if (!GEMINI_API_KEY) {
-    console.warn('Gemini API key not configured, using fallback');
+    console.warn('❌ Gemini API key not configured, using fallback');
     return {
       trueArticles: getMockArticles(),
       lieArticle: generateFallbackLie(),
@@ -25,13 +25,12 @@ export async function fetchArticlesAndGenerateLie(): Promise<NewsWithLie> {
   }
 
   try {
+    console.log('📰 Fetching news articles...');
     // Fetch real news articles
     const newsArticles = await fetchNewsArticles();
+    console.log(`✅ Fetched ${newsArticles.length} news articles`);
 
-    // Use Gemini to select 3 articles and generate a fake one
-    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
-
+    // Use Gemini REST API to select 3 articles and generate a fake one
     const prompt = `You are helping with a "Three Truths and a Lie" game about news headlines.
 
 Here are ${newsArticles.length} real news headlines:
@@ -54,17 +53,49 @@ Return your response in this EXACT JSON format (no additional text):
   "fakeHeadline": "Your generated fake headline here"
 }`;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    console.log('🤖 Calling Gemini API...');
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: prompt
+            }]
+          }]
+        })
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('❌ Gemini API error response:', errorText);
+      throw new Error(`Gemini API error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!text) {
+      console.error('❌ No text in Gemini response:', data);
+      throw new Error('No text in Gemini response');
+    }
+
+    console.log('📝 Gemini response received');
 
     // Parse the JSON response
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
+      console.error('❌ Could not parse Gemini response:', text);
       throw new Error('Could not parse Gemini response');
     }
 
     const parsed = JSON.parse(jsonMatch[0]);
+    console.log('✅ Generated fake headline:', parsed.fakeHeadline);
 
     // Get the selected articles
     const selectedArticles = parsed.selectedIndices
@@ -81,7 +112,8 @@ Return your response in this EXACT JSON format (no additional text):
       lieArticle: parsed.fakeHeadline,
     };
   } catch (error) {
-    console.error('Error with Gemini API:', error);
+    console.error('❌ Error with Gemini API:', error);
+    console.warn('⚠️  Falling back to mock data');
     return {
       trueArticles: getMockArticles(),
       lieArticle: generateFallbackLie(),
@@ -96,22 +128,38 @@ async function fetchNewsArticles(): Promise<Article[]> {
   }
 
   try {
+    // Get date from 7 days ago to get news from the past week
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    const fromDate = sevenDaysAgo.toISOString().split('T')[0];
+
+    // Use 'everything' endpoint with English language filter and popular sources
     const response = await fetch(
-      `${NEWS_API_URL}?country=us&pageSize=20&apiKey=${NEWS_API_KEY}`
+      `${NEWS_API_URL}?q=*&language=en&from=${fromDate}&sortBy=popularity&pageSize=20&apiKey=${NEWS_API_KEY}`
     );
 
     if (!response.ok) {
-      throw new Error('Failed to fetch articles');
+      const errorData = await response.json().catch(() => ({}));
+      console.error('❌ NewsAPI error:', response.status, errorData);
+      throw new Error(`Failed to fetch articles: ${response.status}`);
     }
 
     const data = await response.json();
 
     if (data.status !== 'ok' || !data.articles || data.articles.length < 5) {
+      console.error('❌ Insufficient articles:', data.articles?.length || 0);
       throw new Error('Insufficient articles returned');
     }
 
+    console.log(`✅ NewsAPI returned ${data.articles.length} articles`);
+
     return data.articles
-      .filter((article: any) => article.title && article.url && !article.title.includes('[Removed]'))
+      .filter((article: any) =>
+        article.title &&
+        article.url &&
+        !article.title.includes('[Removed]') &&
+        article.title.length > 20 // Filter out very short titles
+      )
       .slice(0, 15)
       .map((article: any) => ({
         title: article.title,
@@ -120,7 +168,7 @@ async function fetchNewsArticles(): Promise<Article[]> {
       }));
   } catch (error) {
     console.error('Error fetching news articles:', error);
-    return getMockArticles();
+    throw error; // Re-throw so the caller can use fallback
   }
 }
 
