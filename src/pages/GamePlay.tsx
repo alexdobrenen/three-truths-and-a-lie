@@ -1,0 +1,399 @@
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
+import { fetchTrueArticles, generateLieArticle, type Article } from '../services/newsService';
+import './GamePlay.css';
+
+interface ArticleWithPosition extends Article {
+  position: number;
+  isLie: boolean;
+}
+
+function GamePlay() {
+  const { gameId } = useParams<{ gameId: string }>();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { playerId } = (location.state || {}) as { playerId?: string };
+
+  const [articles, setArticles] = useState<ArticleWithPosition[]>([]);
+  const [selectedArticle, setSelectedArticle] = useState<number | null>(null);
+  const [hasVoted, setHasVoted] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(60);
+  const [roundId, setRoundId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [showResults, setShowResults] = useState(false);
+  const [correctAnswer, setCorrectAnswer] = useState<number | null>(null);
+  const [votes, setVotes] = useState<{ [key: number]: number }>({});
+  const [roundInitialized, setRoundInitialized] = useState(false);
+  const [roundStartTime, setRoundStartTime] = useState<string | null>(null);
+  const [playerWasCorrect, setPlayerWasCorrect] = useState<boolean | null>(null);
+  const [nonVoterCount, setNonVoterCount] = useState(0);
+
+  useEffect(() => {
+    console.log('GamePlay mounted - gameId:', gameId, 'playerId:', playerId);
+    checkAndInitializeRound();
+  }, [gameId]);
+
+  // Synchronized timer based on server timestamp
+  useEffect(() => {
+    if (!roundStartTime || showResults) return;
+
+    const calculateTimeRemaining = () => {
+      const startTime = new Date(roundStartTime).getTime();
+      const currentTime = Date.now();
+      const elapsedSeconds = Math.floor((currentTime - startTime) / 1000);
+      const remaining = Math.max(0, 60 - elapsedSeconds);
+
+      setTimeRemaining(remaining);
+
+      if (remaining === 0 && !showResults) {
+        handleTimeUp();
+      }
+    };
+
+    // Calculate immediately
+    calculateTimeRemaining();
+
+    // Update every second
+    const interval = setInterval(calculateTimeRemaining, 1000);
+
+    return () => clearInterval(interval);
+  }, [roundStartTime, showResults]);
+
+  useEffect(() => {
+    if (!roundId) return;
+
+    const channel = supabase
+      .channel(`round-${roundId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'player_guesses',
+          filter: `game_round_id=eq.${roundId}`,
+        },
+        () => {
+          fetchVotes();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [roundId]);
+
+  const checkAndInitializeRound = async () => {
+    if (!gameId) {
+      console.error('No gameId provided');
+      return;
+    }
+
+    console.log('Checking for existing round...');
+    setLoading(true);
+
+    try {
+      const { data: existingRound, error: fetchError } = await supabase
+        .from('game_rounds')
+        .select('*')
+        .eq('game_session_id', gameId)
+        .order('round_number', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (fetchError && fetchError.code !== 'PGRST116') {
+        console.error('Error fetching round:', fetchError);
+        throw fetchError;
+      }
+
+      if (existingRound) {
+        console.log('Found existing round:', existingRound);
+        setRoundId(existingRound.id);
+        setCorrectAnswer(existingRound.correct_answer);
+        setRoundStartTime(existingRound.started_at);
+
+        const fetchedArticles = [
+          { title: existingRound.true_article_1, url: existingRound.true_article_1_url, position: 1, isLie: false, source: '' },
+          { title: existingRound.true_article_2, url: existingRound.true_article_2_url, position: 2, isLie: false, source: '' },
+          { title: existingRound.true_article_3, url: existingRound.true_article_3_url, position: 3, isLie: false, source: '' },
+          { title: existingRound.lie_article, url: '', position: 4, isLie: false, source: '' },
+        ];
+
+        fetchedArticles[existingRound.correct_answer - 1].isLie = true;
+        setArticles(fetchedArticles);
+        setLoading(false);
+        setRoundInitialized(true);
+      } else if (!roundInitialized) {
+        console.log('No existing round, creating new one...');
+        const trueArticles = await fetchTrueArticles();
+        const lieArticle = generateLieArticle();
+        console.log('Articles fetched:', trueArticles.length, 'true articles');
+
+        const allArticles = [
+          ...trueArticles,
+          { title: lieArticle, url: '', source: 'Fake News' },
+        ];
+
+        const shuffled = shuffleArray(allArticles);
+        const liePosition = shuffled.findIndex((a) => a.url === '') + 1;
+
+        const { data: round, error: roundError } = await supabase
+          .from('game_rounds')
+          .insert({
+            game_session_id: gameId,
+            round_number: 1,
+            true_article_1: shuffled[0].title,
+            true_article_1_url: shuffled[0].url || 'none',
+            true_article_2: shuffled[1].title,
+            true_article_2_url: shuffled[1].url || 'none',
+            true_article_3: shuffled[2].title,
+            true_article_3_url: shuffled[2].url || 'none',
+            lie_article: shuffled[3].title,
+            correct_answer: liePosition,
+          })
+          .select()
+          .single();
+
+        if (roundError) {
+          if (roundError.code === '23505') {
+            checkAndInitializeRound();
+            return;
+          }
+          throw roundError;
+        }
+
+        console.log('Round created successfully:', round);
+        setRoundId(round.id);
+        setCorrectAnswer(liePosition);
+        setRoundStartTime(round.started_at);
+        setArticles(
+          shuffled.map((article, index) => ({
+            ...article,
+            position: index + 1,
+            isLie: article.url === '',
+          }))
+        );
+        console.log('Articles set, loading complete');
+        setLoading(false);
+        setRoundInitialized(true);
+      }
+    } catch (error) {
+      console.error('Error with round:', error);
+      alert('Failed to load round. Please try again.');
+      setLoading(false);
+    }
+  };
+
+  const fetchVotes = async () => {
+    if (!roundId) return;
+
+    const { data, error } = await supabase
+      .from('player_guesses')
+      .select('guess')
+      .eq('game_round_id', roundId);
+
+    if (error) {
+      console.error('Error fetching votes:', error);
+      return;
+    }
+
+    const voteCount: { [key: number]: number } = {};
+    let nonVoters = 0;
+
+    data.forEach((vote) => {
+      if (vote.guess === 0) {
+        nonVoters++;
+      } else {
+        voteCount[vote.guess] = (voteCount[vote.guess] || 0) + 1;
+      }
+    });
+
+    setVotes(voteCount);
+    setNonVoterCount(nonVoters);
+  };
+
+  const handleVote = async (position: number) => {
+    if (!roundId || !playerId || showResults) return;
+
+    setSelectedArticle(position);
+
+    try {
+      const isCorrect = position === correctAnswer;
+
+      // Use upsert to allow changing votes
+      const { error } = await supabase
+        .from('player_guesses')
+        .upsert({
+          game_round_id: roundId,
+          player_id: playerId,
+          guess: position,
+          is_correct: isCorrect,
+        }, {
+          onConflict: 'game_round_id,player_id'
+        });
+
+      if (error) throw error;
+
+      setHasVoted(true);
+      fetchVotes(); // Update vote counts immediately
+    } catch (error) {
+      console.error('Error submitting vote:', error);
+      alert('Failed to submit vote. Please try again.');
+      setSelectedArticle(null);
+    }
+  };
+
+  const handleTimeUp = async () => {
+    // If player hasn't voted, record as incorrect
+    if (!hasVoted && playerId && roundId) {
+      try {
+        await supabase
+          .from('player_guesses')
+          .insert({
+            game_round_id: roundId,
+            player_id: playerId,
+            guess: 0, // 0 indicates no guess
+            is_correct: false,
+          });
+        setPlayerWasCorrect(false);
+      } catch (error) {
+        console.error('Error recording non-vote:', error);
+      }
+    } else {
+      // Fetch the player's result
+      await fetchPlayerResult();
+    }
+
+    setShowResults(true);
+    fetchVotes();
+  };
+
+  const fetchPlayerResult = async () => {
+    if (!playerId || !roundId) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('player_guesses')
+        .select('is_correct')
+        .eq('game_round_id', roundId)
+        .eq('player_id', playerId)
+        .single();
+
+      if (error) {
+        console.error('Error fetching player result:', error);
+        return;
+      }
+
+      if (data) {
+        setPlayerWasCorrect(data.is_correct);
+      }
+    } catch (error) {
+      console.error('Error fetching player result:', error);
+    }
+  };
+
+  const handleNextRound = () => {
+    navigate('/dashboard');
+  };
+
+  const shuffleArray = <T,>(array: T[]): T[] => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
+  if (loading) {
+    return (
+      <div className="game-play-container">
+        <h1>Loading round...</h1>
+      </div>
+    );
+  }
+
+  return (
+    <div className="game-play-container">
+      <div className="game-header">
+        <h1>Three Truths and a Lie</h1>
+        {!showResults && (
+          <div className="timer">
+            <span className={timeRemaining <= 10 ? 'timer-warning' : ''}>
+              {Math.floor(timeRemaining / 60)}:{(timeRemaining % 60).toString().padStart(2, '0')}
+            </span>
+          </div>
+        )}
+      </div>
+
+      <p className="instructions">
+        {showResults
+          ? 'Round complete! See the results below.'
+          : 'Which article is the lie? Click to vote!'}
+      </p>
+
+      <div className="articles-grid">
+        {articles.map((article) => (
+          <div
+            key={article.position}
+            className={`article-card ${
+              selectedArticle === article.position ? 'selected' : ''
+            } ${showResults && article.isLie ? 'lie-article' : ''} ${
+              showResults && !article.isLie ? 'true-article' : ''
+            }`}
+            onClick={() => !showResults && handleVote(article.position)}
+          >
+            <div className="article-number">Article {article.position}</div>
+            <h3 className="article-title">{article.title}</h3>
+            {article.url && article.url !== 'none' && !showResults && (
+              <a
+                href={article.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="article-link"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Read more
+              </a>
+            )}
+            {showResults && (
+              <div className="vote-count">
+                {votes[article.position] || 0} vote(s)
+              </div>
+            )}
+            {showResults && article.isLie && (
+              <div className="lie-badge">This was the lie!</div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {hasVoted && !showResults && (
+        <div className="voted-message">
+          <p>Vote submitted! You can change your vote until time runs out.</p>
+        </div>
+      )}
+
+      {showResults && playerWasCorrect !== null && (
+        <div className={`player-result ${playerWasCorrect ? 'correct' : 'incorrect'}`}>
+          {playerWasCorrect ? 'Correct!' : 'Incorrect'}
+        </div>
+      )}
+
+      {showResults && nonVoterCount > 0 && (
+        <div className="non-voter-message">
+          <p>{nonVoterCount} player{nonVoterCount !== 1 ? 's' : ''} didn't vote (marked incorrect)</p>
+        </div>
+      )}
+
+      {showResults && (
+        <button className="primary-button" onClick={handleNextRound}>
+          View Results
+        </button>
+      )}
+    </div>
+  );
+}
+
+export default GamePlay;
