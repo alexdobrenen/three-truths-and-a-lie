@@ -221,6 +221,7 @@ function GamePlay() {
 
     try {
       const isCorrect = position === correctAnswer;
+      console.log('🗳️  Voting:', { position, correctAnswer, isCorrect });
 
       // Use upsert to allow changing votes
       const { error } = await supabase
@@ -238,6 +239,7 @@ function GamePlay() {
 
       setHasVoted(true);
       fetchVotes(); // Update vote counts immediately
+      console.log('✅ Vote recorded successfully');
     } catch (error) {
       console.error('Error submitting vote:', error);
       alert('Failed to submit vote. Please try again.');
@@ -288,6 +290,11 @@ function GamePlay() {
       }
 
       if (data) {
+        console.log('📊 Player result:', {
+          guess: data.guess,
+          isCorrect: data.is_correct,
+          correctAnswer
+        });
         setPlayerWasCorrect(data.is_correct);
         setPlayerGuess(data.guess);
       }
@@ -360,8 +367,12 @@ function GamePlay() {
                 Read more
               </a>
             )}
-            {showResults && playerGuess === article.position && (
-              <div className="your-vote-badge">Your Vote</div>
+            {(showResults ? playerGuess === article.position : selectedArticle === article.position) && (
+              <div className="vote-checkmark">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
             )}
             {showResults && (
               <div className="vote-count">

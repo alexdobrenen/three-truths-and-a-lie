@@ -16,8 +16,10 @@ interface NewsWithLie {
 }
 
 export async function fetchArticlesAndGenerateLie(): Promise<NewsWithLie> {
+  console.log('🤖 Gemini API key present:', !!GEMINI_API_KEY);
+
   if (!GEMINI_API_KEY) {
-    console.warn('Gemini API key not configured, using fallback');
+    console.warn('❌ Gemini API key not configured, using fallback');
     return {
       trueArticles: getMockArticles(),
       lieArticle: generateFallbackLie(),
@@ -25,8 +27,10 @@ export async function fetchArticlesAndGenerateLie(): Promise<NewsWithLie> {
   }
 
   try {
+    console.log('📰 Fetching news articles...');
     // Fetch real news articles
     const newsArticles = await fetchNewsArticles();
+    console.log(`✅ Fetched ${newsArticles.length} news articles`);
 
     // Use Gemini to select 3 articles and generate a fake one
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
@@ -54,17 +58,21 @@ Return your response in this EXACT JSON format (no additional text):
   "fakeHeadline": "Your generated fake headline here"
 }`;
 
+    console.log('🤖 Calling Gemini API...');
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
+    console.log('📝 Gemini response received');
 
     // Parse the JSON response
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
+      console.error('❌ Could not parse Gemini response:', text);
       throw new Error('Could not parse Gemini response');
     }
 
     const parsed = JSON.parse(jsonMatch[0]);
+    console.log('✅ Generated fake headline:', parsed.fakeHeadline);
 
     // Get the selected articles
     const selectedArticles = parsed.selectedIndices
@@ -81,7 +89,8 @@ Return your response in this EXACT JSON format (no additional text):
       lieArticle: parsed.fakeHeadline,
     };
   } catch (error) {
-    console.error('Error with Gemini API:', error);
+    console.error('❌ Error with Gemini API:', error);
+    console.warn('⚠️  Falling back to mock data');
     return {
       trueArticles: getMockArticles(),
       lieArticle: generateFallbackLie(),

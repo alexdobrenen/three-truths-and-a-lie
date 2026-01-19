@@ -62,6 +62,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border: 3px solid transparent;
+  position: relative;
 }
 
 .article-card:hover {
@@ -132,15 +133,32 @@
   text-align: center;
 }
 
-.your-vote-badge {
-  margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
+.vote-checkmark {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
   background: #2196f3;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: white;
-  border-radius: 6px;
-  font-weight: 600;
-  text-align: center;
-  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.4);
+  animation: checkmarkPop 0.3s ease;
+}
+
+@keyframes checkmarkPop {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .article-card.player-voted {
