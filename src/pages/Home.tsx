@@ -14,14 +14,14 @@ function Home() {
           className="primary-button"
           onClick={() => navigate('/create')}
         >
-          Create New Game
+          New Game
         </button>
 
         <button
           className="secondary-button"
           onClick={() => navigate('/dashboard')}
         >
-          View Dashboard
+          Game Statistics
         </button>
       </div>
     </div>

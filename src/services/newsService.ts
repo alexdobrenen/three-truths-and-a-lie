@@ -51,6 +51,15 @@ async function loadHeadlines(): Promise<HeadlinesData> {
   return headlinesData!;
 }
 
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 export async function fetchArticlesAndGenerateLie(usedRoundIds: number[] = []): Promise<NewsWithLie> {
   const data = await loadHeadlines();
 
@@ -67,7 +76,10 @@ export async function fetchArticlesAndGenerateLie(usedRoundIds: number[] = []): 
 
   console.log(`📰 Using round ${round.id} (${usedRoundIds.length} rounds already used)`);
 
-  const trueArticles: Article[] = round.trueHeadlines.map((headline) => ({
+  // Shuffle the true articles to randomize their order
+  const shuffledTrueHeadlines = shuffleArray(round.trueHeadlines);
+
+  const trueArticles: Article[] = shuffledTrueHeadlines.map((headline) => ({
     title: headline.title,
     url: headline.url,
     source: headline.source,

@@ -10,14 +10,76 @@ interface PlayerStats {
   accuracy: number;
 }
 
+interface LastGameResult {
+  player_name: string;
+  is_correct: boolean;
+  article_title: string;
+  guess: number;
+}
+
 function Dashboard() {
   const navigate = useNavigate();
   const [playerStats, setPlayerStats] = useState<PlayerStats[]>([]);
+  const [lastGameResults, setLastGameResults] = useState<LastGameResult[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchPlayerStats();
+    fetchLastGameResults();
   }, []);
+
+  const fetchLastGameResults = async () => {
+    try {
+      // First, get the most recent completed game round
+      const { data: latestRound, error: roundError } = await supabase
+        .from('game_rounds')
+        .select('id, true_article_1, true_article_2, true_article_3, lie_article, correct_answer')
+        .order('started_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (roundError || !latestRound) {
+        console.error('Error fetching latest round:', roundError);
+        return;
+      }
+
+      // Get all player guesses for this round
+      const { data: guesses, error: guessError } = await supabase
+        .from('player_guesses')
+        .select(`
+          guess,
+          is_correct,
+          players!inner (
+            name
+          )
+        `)
+        .eq('game_round_id', latestRound.id);
+
+      if (guessError) {
+        console.error('Error fetching guesses:', guessError);
+        return;
+      }
+
+      // Map the articles to their positions
+      const articles = [
+        latestRound.true_article_1,
+        latestRound.true_article_2,
+        latestRound.true_article_3,
+        latestRound.lie_article,
+      ];
+
+      const results: LastGameResult[] = guesses?.map((guess: any) => ({
+        player_name: guess.players.name,
+        is_correct: guess.is_correct,
+        article_title: guess.guess > 0 ? articles[guess.guess - 1] : 'Did not vote',
+        guess: guess.guess,
+      })) || [];
+
+      setLastGameResults(results);
+    } catch (error) {
+      console.error('Error fetching last game results:', error);
+    }
+  };
 
   const fetchPlayerStats = async () => {
     setLoading(true);
@@ -59,7 +121,14 @@ function Dashboard() {
         accuracy: stat.total_guesses > 0 ? (stat.correct_guesses / stat.total_guesses) * 100 : 0,
       }));
 
-      statsArray.sort((a, b) => b.accuracy - a.accuracy);
+      statsArray.sort((a, b) => {
+        // First sort by correct guesses (descending)
+        if (b.correct_guesses !== a.correct_guesses) {
+          return b.correct_guesses - a.correct_guesses;
+        }
+        // If correct guesses are equal, sort by accuracy (descending)
+        return b.accuracy - a.accuracy;
+      });
       setPlayerStats(statsArray);
     } catch (error) {
       console.error('Error fetching player stats:', error);
@@ -78,15 +147,34 @@ function Dashboard() {
 
   return (
     <div className="dashboard-container">
+      <button className="back-to-home-button" onClick={() => navigate('/')}>
+        Back to Home
+      </button>
       <div className="dashboard-header">
-        <h1>Game Dashboard</h1>
-        <button className="secondary-button" onClick={() => navigate('/')}>
-          Back to Home
-        </button>
+        <h1>Game Statistics</h1>
       </div>
 
+      {lastGameResults.length > 0 && (
+        <div className="stats-section">
+          <h2>Last Game</h2>
+          <div className="last-game-results">
+            {lastGameResults.map((result, index) => (
+              <div key={index} className="last-game-result-card">
+                <div className="result-player-name">{result.player_name}</div>
+                <div className={`result-badge ${result.is_correct ? 'correct-badge' : 'incorrect-badge'}`}>
+                  {result.is_correct ? 'Correct' : 'Incorrect'}
+                </div>
+                <div className="result-article-title">
+                  {result.article_title}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="stats-section">
-        <h2>Player Statistics</h2>
+        <h2>Overall</h2>
         {playerStats.length === 0 ? (
           <p className="no-data">No player data available yet. Play some games to see stats!</p>
         ) : (
