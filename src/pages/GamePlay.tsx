@@ -18,7 +18,7 @@ function GamePlay() {
   const [articles, setArticles] = useState<ArticleWithPosition[]>([]);
   const [selectedArticle, setSelectedArticle] = useState<number | null>(null);
   const [hasVoted, setHasVoted] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(60);
+  const [timeRemaining, setTimeRemaining] = useState(15);
   const [roundId, setRoundId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [showResults, setShowResults] = useState(false);
@@ -33,7 +33,8 @@ function GamePlay() {
   useEffect(() => {
     console.log('GamePlay mounted - gameId:', gameId, 'playerId:', playerId);
     checkAndInitializeRound();
-  }, [gameId]);
+  }, [gameId, playerId]);
+
 
   // Synchronized timer based on server timestamp
   useEffect(() => {
@@ -43,7 +44,7 @@ function GamePlay() {
       const startTime = new Date(roundStartTime).getTime();
       const currentTime = Date.now();
       const elapsedSeconds = Math.floor((currentTime - startTime) / 1000);
-      const remaining = Math.max(0, 60 - elapsedSeconds);
+      const remaining = Math.max(0, 15 - elapsedSeconds);
 
       setTimeRemaining(remaining);
 
@@ -111,6 +112,7 @@ function GamePlay() {
 
       if (existingRound) {
         console.log('Found existing round:', existingRound);
+        console.log('🎯 Correct answer from database:', existingRound.correct_answer);
         setRoundId(existingRound.id);
         setCorrectAnswer(existingRound.correct_answer);
         setRoundStartTime(existingRound.started_at);
@@ -123,6 +125,7 @@ function GamePlay() {
         ];
 
         fetchedArticles[existingRound.correct_answer - 1].isLie = true;
+        console.log('📰 Articles with isLie flags:', fetchedArticles.map(a => ({ position: a.position, title: a.title.substring(0, 30), isLie: a.isLie })));
         setArticles(fetchedArticles);
         setLoading(false);
         setRoundInitialized(true);
@@ -149,6 +152,9 @@ function GamePlay() {
 
       const shuffled = shuffleArray(allArticles);
       const liePosition = shuffled.findIndex((a) => a.url === '') + 1;
+
+      console.log('🔀 Shuffled articles:', shuffled.map((a, i) => ({ position: i + 1, title: a.title, isLie: a.url === '' })));
+      console.log('✅ Lie position:', liePosition);
 
       // Try to insert the round with better conflict handling
       const maxRetries = 3;
@@ -286,7 +292,7 @@ function GamePlay() {
       console.log('🗳️  Voting:', { position, correctAnswer, isCorrect });
 
       // Use upsert to allow changing votes
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('player_guesses')
         .upsert({
           game_round_id: roundId,
@@ -295,13 +301,20 @@ function GamePlay() {
           is_correct: isCorrect,
         }, {
           onConflict: 'game_round_id,player_id'
-        });
+        })
+        .select();
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ Error inserting vote:', error);
+        throw error;
+      }
 
+      console.log('✅ Vote recorded:', data);
+      console.log('💾 Setting local state - playerWasCorrect:', isCorrect, 'playerGuess:', position);
       setHasVoted(true);
+      setPlayerWasCorrect(isCorrect);
+      setPlayerGuess(position);
       fetchVotes(); // Update vote counts immediately
-      console.log('✅ Vote recorded successfully');
     } catch (error) {
       console.error('Error submitting vote:', error);
       alert('Failed to submit vote. Please try again.');
@@ -310,64 +323,72 @@ function GamePlay() {
   };
 
   const handleTimeUp = async () => {
-    // If player hasn't voted, record as incorrect
-    if (!hasVoted && playerId && roundId) {
-      try {
-        await supabase
-          .from('player_guesses')
-          .insert({
-            game_round_id: roundId,
-            player_id: playerId,
-            guess: 0, // 0 indicates no guess
-            is_correct: false,
-          });
-        setPlayerWasCorrect(false);
-        setPlayerGuess(0); // No guess made
-      } catch (error) {
-        console.error('Error recording non-vote:', error);
+    console.log('⏰ Time up! hasVoted:', hasVoted, 'playerGuess:', playerGuess, 'playerWasCorrect:', playerWasCorrect);
+
+    // Always check the database for the player's vote to avoid stale closure issues
+    if (playerId && roundId) {
+      const { data: existingGuess } = await supabase
+        .from('player_guesses')
+        .select('guess, is_correct')
+        .eq('game_round_id', roundId)
+        .eq('player_id', playerId)
+        .maybeSingle();
+
+      if (existingGuess) {
+        // Player has voted, use their result
+        console.log('✅ Player voted, using database result:', existingGuess);
+        setPlayerWasCorrect(existingGuess.is_correct);
+        setPlayerGuess(existingGuess.guess);
+      } else {
+        // Player hasn't voted, record as incorrect
+        console.log('❌ Player did not vote, recording as incorrect');
+        try {
+          const { error: insertError } = await supabase
+            .from('player_guesses')
+            .insert({
+              game_round_id: roundId,
+              player_id: playerId,
+              guess: 0, // 0 indicates no guess
+              is_correct: false,
+            });
+
+          if (insertError) {
+            // If it's a duplicate key error, that's OK - it means they voted in a race condition
+            if (insertError.code === '23505') {
+              console.log('⚠️  Vote already exists (race condition), fetching...');
+              const { data: raceGuess } = await supabase
+                .from('player_guesses')
+                .select('guess, is_correct')
+                .eq('game_round_id', roundId)
+                .eq('player_id', playerId)
+                .single();
+
+              if (raceGuess) {
+                setPlayerWasCorrect(raceGuess.is_correct);
+                setPlayerGuess(raceGuess.guess);
+              }
+            } else {
+              console.error('Error recording non-vote:', insertError);
+            }
+          } else {
+            setPlayerWasCorrect(false);
+            setPlayerGuess(0);
+          }
+        } catch (error) {
+          console.error('Error recording non-vote:', error);
+        }
       }
-    } else {
-      // Fetch the player's result
-      await fetchPlayerResult();
     }
 
     setShowResults(true);
     fetchVotes();
   };
 
-  const fetchPlayerResult = async () => {
-    if (!playerId || !roundId) return;
-
-    try {
-      const { data, error } = await supabase
-        .from('player_guesses')
-        .select('is_correct, guess')
-        .eq('game_round_id', roundId)
-        .eq('player_id', playerId)
-        .single();
-
-      if (error) {
-        console.error('Error fetching player result:', error);
-        return;
-      }
-
-      if (data) {
-        console.log('📊 Player result:', {
-          guess: data.guess,
-          isCorrect: data.is_correct,
-          correctAnswer
-        });
-        setPlayerWasCorrect(data.is_correct);
-        setPlayerGuess(data.guess);
-      }
-    } catch (error) {
-      console.error('Error fetching player result:', error);
-    }
-  };
 
   const handleNextRound = () => {
     navigate('/dashboard');
   };
+
 
   const shuffleArray = <T,>(array: T[]): T[] => {
     const shuffled = [...array];
@@ -386,6 +407,8 @@ function GamePlay() {
     );
   }
 
+  console.log('🎮 Render state - playerId:', playerId, 'showResults:', showResults, 'playerWasCorrect:', playerWasCorrect);
+
   return (
     <div className="game-play-container">
       <div className="game-header">
@@ -398,6 +421,7 @@ function GamePlay() {
           </div>
         )}
       </div>
+
 
       <p className="instructions">
         {showResults
@@ -429,7 +453,7 @@ function GamePlay() {
                 Read more
               </a>
             )}
-            {(showResults ? playerGuess === article.position : selectedArticle === article.position) && (
+            {(showResults ? (playerGuess === article.position || (!playerGuess && selectedArticle === article.position)) : selectedArticle === article.position) && (
               <div className="vote-checkmark">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
