@@ -7,6 +7,7 @@ export interface Article {
 interface NewsWithLie {
   trueArticles: Article[];
   lieArticle: string;
+  roundId: number;
 }
 
 interface HeadlineRound {
@@ -27,45 +28,58 @@ interface HeadlinesData {
 }
 
 let headlinesData: HeadlinesData | null = null;
-let currentRoundIndex = 0;
 
 async function loadHeadlines(): Promise<HeadlinesData> {
   if (headlinesData) {
     return headlinesData;
   }
 
-  try {
-    console.log('📰 Loading headlines from JSON...');
-    // Use import.meta.env.BASE_URL to handle both dev and production paths
-    const baseUrl = import.meta.env.BASE_URL || '/';
-    const headlinesUrl = `${baseUrl}headlines.json`;
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  const headlinesUrl = `${baseUrl}headlines.json`;
 
-    console.log('🔗 Fetching from:', headlinesUrl);
-    const response = await fetch(headlinesUrl);
+  console.log('📰 Loading headlines from:', headlinesUrl);
 
-    if (!response.ok) {
-      throw new Error(`Failed to load headlines: ${response.status}`);
-    }
+  const response = await fetch(headlinesUrl);
 
-    headlinesData = await response.json();
-    console.log(`✅ Loaded ${headlinesData!.rounds.length} rounds of headlines`);
-    return headlinesData!;
-  } catch (error) {
-    console.error('❌ Error loading headlines:', error);
-    throw error;
+  if (!response.ok) {
+    throw new Error(`Failed to load headlines: ${response.status}`);
   }
+
+  headlinesData = await response.json();
+  console.log(`✅ Loaded ${headlinesData!.rounds.length} rounds of headlines`);
+
+  return headlinesData!;
 }
 
-export async function fetchArticlesAndGenerateLie(): Promise<NewsWithLie> {
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+export async function fetchArticlesAndGenerateLie(usedRoundIds: number[] = []): Promise<NewsWithLie> {
   const data = await loadHeadlines();
 
-  // Get the next round (cycle through available rounds)
-  const round = data.rounds[currentRoundIndex % data.rounds.length];
-  currentRoundIndex++;
+  // Filter out rounds that have already been used in this game
+  const availableRounds = data.rounds.filter(round => !usedRoundIds.includes(round.id));
 
-  console.log(`📰 Using round ${round.id} headlines`);
+  if (availableRounds.length === 0) {
+    throw new Error('No more unused rounds available. All rounds have been used in this game.');
+  }
 
-  const trueArticles: Article[] = round.trueHeadlines.map((headline) => ({
+  // Select a random round from the available ones
+  const randomIndex = Math.floor(Math.random() * availableRounds.length);
+  const round = availableRounds[randomIndex];
+
+  console.log(`📰 Using round ${round.id} (${usedRoundIds.length} rounds already used)`);
+
+  // Shuffle the true articles to randomize their order
+  const shuffledTrueHeadlines = shuffleArray(round.trueHeadlines);
+
+  const trueArticles: Article[] = shuffledTrueHeadlines.map((headline) => ({
     title: headline.title,
     url: headline.url,
     source: headline.source,
@@ -74,16 +88,6 @@ export async function fetchArticlesAndGenerateLie(): Promise<NewsWithLie> {
   return {
     trueArticles,
     lieArticle: round.fakeHeadline.title,
+    roundId: round.id,
   };
-}
-
-// Legacy exports for backwards compatibility
-export async function fetchTrueArticles(): Promise<Article[]> {
-  const result = await fetchArticlesAndGenerateLie();
-  return result.trueArticles;
-}
-
-export async function generateLieArticle(): Promise<string> {
-  const result = await fetchArticlesAndGenerateLie();
-  return result.lieArticle;
 }

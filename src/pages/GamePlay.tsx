@@ -19,7 +19,7 @@ function GamePlay() {
   const [articles, setArticles] = useState<ArticleWithPosition[]>([]);
   const [selectedArticle, setSelectedArticle] = useState<number | null>(null);
   const [hasVoted, setHasVoted] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(15);
+  const [timeRemaining, setTimeRemaining] = useState(30);
   const [roundId, setRoundId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [showResults, setShowResults] = useState(false);
@@ -30,10 +30,12 @@ function GamePlay() {
   const [playerWasCorrect, setPlayerWasCorrect] = useState<boolean | null>(null);
   const [nonVoterCount, setNonVoterCount] = useState(0);
   const [playerGuess, setPlayerGuess] = useState<number | null>(null);
+  const [playerName, setPlayerName] = useState<string>('');
 
   useEffect(() => {
     console.log('GamePlay mounted - gameId:', gameId, 'playerId:', playerId);
     checkAndInitializeRound();
+    fetchPlayerName();
   }, [gameId, playerId]);
 
 
@@ -45,7 +47,7 @@ function GamePlay() {
       const startTime = new Date(roundStartTime).getTime();
       const currentTime = Date.now();
       const elapsedSeconds = Math.floor((currentTime - startTime) / 1000);
-      const remaining = Math.max(0, 15 - elapsedSeconds);
+      const remaining = Math.max(0, 30 - elapsedSeconds);
 
       setTimeRemaining(remaining);
 
@@ -86,6 +88,25 @@ function GamePlay() {
       supabase.removeChannel(channel);
     };
   }, [roundId]);
+
+  const fetchPlayerName = async () => {
+    if (!playerId) return;
+
+    const { data, error } = await supabase
+      .from('players')
+      .select('name')
+      .eq('id', playerId)
+      .single();
+
+    if (error) {
+      console.error('Error fetching player name:', error);
+      return;
+    }
+
+    if (data) {
+      setPlayerName(data.name);
+    }
+  };
 
   const checkAndInitializeRound = async () => {
     if (!gameId) {
@@ -141,10 +162,25 @@ function GamePlay() {
 
       console.log('No existing round, creating new one...');
 
+      // Fetch ALL used round IDs globally (not just for this game session)
+      const { data: usedRounds, error: usedRoundsError } = await supabase
+        .from('game_rounds')
+        .select('headlines_round_id')
+        .not('headlines_round_id', 'is', null);
+
+      if (usedRoundsError) {
+        console.error('❌ Error fetching used rounds:', usedRoundsError);
+      }
+
+      const usedRoundIds = usedRounds?.map(r => r.headlines_round_id).filter((id): id is number => id !== null) || [];
+      console.log(`📊 Already used ${usedRoundIds.length} rounds globally:`, usedRoundIds);
+      console.log(`📊 Unique rounds used:`, [...new Set(usedRoundIds)]);
+
       // Fetch articles first before attempting database insert
-      const { trueArticles, lieArticle } = await fetchArticlesAndGenerateLie();
+      const { trueArticles, lieArticle, roundId: headlinesRoundId } = await fetchArticlesAndGenerateLie(usedRoundIds);
       console.log('Articles fetched:', trueArticles.length, 'true articles');
       console.log('Fake headline generated:', lieArticle);
+      console.log('Using headlines round ID:', headlinesRoundId);
 
       const allArticles = [
         ...trueArticles,
@@ -177,6 +213,7 @@ function GamePlay() {
               true_article_3_url: shuffled[2].url || 'none',
               lie_article: shuffled[3].title,
               correct_answer: liePosition,
+              headlines_round_id: headlinesRoundId,
             })
             .select()
             .single();
@@ -414,13 +451,20 @@ function GamePlay() {
     <div className="game-play-container">
       <div className="game-header">
         <img src={titleImage} alt="Three Truths and a Lie" style={{ maxWidth: '400px', width: '100%' }} />
-        {!showResults && (
-          <div className="timer">
-            <span className={timeRemaining <= 10 ? 'timer-warning' : ''}>
-              {Math.floor(timeRemaining / 60)}:{(timeRemaining % 60).toString().padStart(2, '0')}
-            </span>
-          </div>
-        )}
+        <div className="header-right">
+          {playerName && (
+            <div className="player-name-display">
+              {playerName}
+            </div>
+          )}
+          {!showResults && (
+            <div className="timer">
+              <span className={timeRemaining <= 10 ? 'timer-warning' : ''}>
+                {Math.floor(timeRemaining / 60)}:{(timeRemaining % 60).toString().padStart(2, '0')}
+              </span>
+            </div>
+          )}
+        </div>
       </div>
 
 
@@ -443,7 +487,7 @@ function GamePlay() {
           >
             <div className="article-number">Article {article.position}</div>
             <h3 className="article-title">{article.title}</h3>
-            {article.url && article.url !== 'none' && !showResults && (
+            {article.url && article.url !== 'none' && showResults && !article.isLie && (
               <a
                 href={article.url}
                 target="_blank"
@@ -451,7 +495,7 @@ function GamePlay() {
                 className="article-link"
                 onClick={(e) => e.stopPropagation()}
               >
-                Read more
+                Article Link
               </a>
             )}
             {(showResults ? (playerGuess === article.position || (!playerGuess && selectedArticle === article.position)) : selectedArticle === article.position) && (
