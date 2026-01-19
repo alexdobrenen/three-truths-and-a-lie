@@ -46,9 +46,9 @@ function SetupRequired() {
               <p>Edit your <code>.env</code> file and replace the placeholder values:</p>
               <pre>
 {`VITE_SUPABASE_URL=https://xxxxx.supabase.co
-VITE_SUPABASE_ANON_KEY=your_actual_key_here
-VITE_NEWS_API_KEY=optional`}
+VITE_SUPABASE_ANON_KEY=your_actual_key_here`}
               </pre>
+              <p className="step-note">Note: Headlines are loaded from <code>public/headlines.json</code></p>
             </div>
           </div>
 
