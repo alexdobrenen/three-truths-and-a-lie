@@ -33,7 +33,7 @@ function Dashboard() {
       // First, get the most recent completed game round
       const { data: latestRound, error: roundError } = await supabase
         .from('game_rounds')
-        .select('id, true_article_1, true_article_2, true_article_3, lie_article, correct_answer')
+        .select('id, article_1_title, article_2_title, article_3_title, article_4_title, correct_answer')
         .order('started_at', { ascending: false })
         .limit(1)
         .single();
@@ -60,12 +60,12 @@ function Dashboard() {
         return;
       }
 
-      // Map the articles to their positions
+      // Map the articles to their positions (all 4 in order)
       const articles = [
-        latestRound.true_article_1,
-        latestRound.true_article_2,
-        latestRound.true_article_3,
-        latestRound.lie_article,
+        latestRound.article_1_title,
+        latestRound.article_2_title,
+        latestRound.article_3_title,
+        latestRound.article_4_title,
       ];
 
       const results: LastGameResult[] = guesses?.map((guess: any) => ({
