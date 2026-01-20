@@ -1,294 +1,584 @@
 {
-  "rounds": [
-    {
-      "id": 1,
-      "headlines": [
+    "rounds": [
         {
-          "title": "AI Police Report Generator Claims Officer Was Turned Into a Frog",
-          "url": "https://www.upi.com/Odd_News/2026/01/05/Heber-City-Police-Department-AI-program-officer-frog/9641767634540/",
-          "source": "UPI Odd News",
-          "isLie": false
+            "id": 1,
+            "headlines": [
+                {
+                    "title": "A woman tried to call her mom in Iran. A robotic voice answered the phone",
+                    "url": "https://abcnews.go.com/International/wireStory/woman-call-mom-iran-robotic-voice-answered-phone-123058148",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "Officials Discover Radioactive Wasp Nests at Facility That Once Produced Parts of Nuclear Weapons in South Carolina",
+                    "url": "https://www.smithsonianmag.com/smart-news/officials-discover-radioactive-wasp-nests-at-facility-that-once-produced-parts-of-nuclear-weapons-in-south-carolina-180987099/",
+                    "source": "Smithsonian Magazine",
+                    "isLie": false
+                },
+                {
+                    "title": "Telecom operators in Iran replace missed calls with AI 'comfort messages' during outages, families furious",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "Woman arrested after raccoon named Chewy found with meth pipe in driver's seat during police stop",
+                    "url": "https://abcnews.go.com/US/woman-arrested-after-raccoon-named-chewy-found-meth/story?id=121546807",
+                    "source": "ABC News",
+                    "isLie": false
+                }
+            ]
         },
         {
-          "title": "Scientists Discover 'Ghost Galaxy' Made Entirely of Dark Matter With No Stars",
-          "url": "https://www.sciencedaily.com/releases/2026/01/260109220500.htm",
-          "source": "Science Daily",
-          "isLie": false
+            "id": 2,
+            "headlines": [
+                {
+                    "title": "Bizarre psychological warfare using K-pop and trash balloons raises tensions between the 2 Koreas",
+                    "url": "https://abcnews.go.com/International/wireStory/bizarre-psychological-warfare-pop-trash-balloons-raises-tensions-111009570",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "Rare Photograph of Billy the Kid Found at a Flea Market",
+                    "url": "https://www.smithsonianmag.com/smart-news/found-rare-photograph-billy-kid-180967259/",
+                    "source": "Smithsonian Magazine",
+                    "isLie": false
+                },
+                {
+                    "title": "Archivists confirm a 'lost' silent film was found mislabeled on a Blu-ray bonus disc sold at a yard sale",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "Gleaming monolith pops up in Nevada desert, the latest in a series of quickly vanishing structures",
+                    "url": "https://abcnews.go.com/US/wireStory/gleaming-monolith-pops-nevada-desert-latest-series-quickly-111222584",
+                    "source": "ABC News",
+                    "isLie": false
+                }
+            ]
         },
         {
-          "title": "Meteorologists Confirm Clouds Are Now Downloading Updates, Causing Unexpected Rain Delays",
-          "url": "",
-          "source": "Fake News",
-          "isLie": true
+            "id": 3,
+            "headlines": [
+                {
+                    "title": "Unusual bee attack in French town leaves 24 injured, 3 critically",
+                    "url": "https://abcnews.go.com/International/wireStory/unusual-bee-attack-french-town-leaves-24-injured-123528832",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "This Eye-Catching Rattlesnake Found in Arizona Has Unusual 'Leopard Spots,' Likely From a Genetic Mutation",
+                    "url": "https://www.smithsonianmag.com/smart-news/this-eye-catching-rattlesnake-found-in-arizona-has-unusual-leopard-spots-likely-from-a-genetic-mutation-180986641/",
+                    "source": "Smithsonian Magazine",
+                    "isLie": false
+                },
+                {
+                    "title": "Scientists discover “migrions,” a viral shortcut that supercharges infection",
+                    "url": "https://www.sciencedaily.com/releases/2026/01/260105165820.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                },
+                {
+                    "title": "French town installs emergency 'bee sirens' after rare mass-stinging event overwhelms paramedics",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                }
+            ]
         },
         {
-          "title": "Drunk Raccoon Passes Out on Bathroom Floor After Breaking Into Virginia Liquor Store",
-          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
-          "source": "Patch",
-          "isLie": false
+            "id": 4,
+            "headlines": [
+                {
+                    "title": "Voodoo doll, whoopie cushion, denture powder among bizarre trash plucked from New Jersey beaches",
+                    "url": "https://abcnews.go.com/US/wireStory/voodoo-doll-whoopie-cushion-denture-powder-bizarre-trash-108858285",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "Rare disease drug nitisinone makes human blood deadly to mosquitoes",
+                    "url": "https://www.sciencedaily.com/releases/2025/03/250326154420.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                },
+                {
+                    "title": "Beach cleanup group says most shocking finds were 'mystery keys' that opened dozens of unrelated padlocks",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "Doctors found a live python parasite in a woman's brain",
+                    "url": "https://www.sciencenews.org/article/doctors-live-python-parasite-brain",
+                    "source": "Science News",
+                    "isLie": false
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "headlines": [
+                {
+                    "title": "A science journal pulled a controversial study about a bizarre life form against the authors' wishes",
+                    "url": "https://abcnews.go.com/Technology/wireStory/science-journal-pulled-controversial-study-bizarre-life-form-124078391",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "Astronomers stunned by the strangest supernova ever seen",
+                    "url": "https://www.sciencedaily.com/releases/2025/08/250821004234.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                },
+                {
+                    "title": "Peer-reviewed paper claims 'arsenic life' bacteria were actually a mislabeled lab strain; authors demand apology",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "Astronomers find a ghost galaxy made of dark matter",
+                    "url": "https://www.sciencedaily.com/releases/2026/01/260109220500.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "headlines": [
+                {
+                    "title": "Powerball jackpot jumps to $1.7 billion after another drawing with no big winner",
+                    "url": "https://abcnews.go.com/US/wireStory/powerball-jackpot-jumps-17-billion-after-drawing-big-128640695",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "A never-before-seen creature has been found in the Great Salt Lake",
+                    "url": "https://www.sciencedaily.com/releases/2026/01/260110211227.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                },
+                {
+                    "title": "Lottery officials say a 'glitch' briefly showed winning numbers early; they insist it was only a display error",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "Researchers Find Rare 17-Pound Meteorite in Antarctic Ice",
+                    "url": "https://www.smithsonianmag.com/smart-news/rare-17-pound-meteorite-found-in-antarctica-180981500/",
+                    "source": "Smithsonian Magazine",
+                    "isLie": false
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "headlines": [
+                {
+                    "title": "A man's body recovered from waters off a Greek beach with barbell attached",
+                    "url": "https://abcnews.go.com/International/wireStory/mans-body-recovered-waters-off-greek-beach-barbell-110756592",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "A New, Shape-Shifting 'Flapjack' Octopus Has Been Discovered in the Deep Sea Off the Coast of Australia",
+                    "url": "https://www.smithsonianmag.com/smart-news/a-new-shape-shifting-dumbo-octopus-has-been-discovered-in-the-deep-sea-off-the-coast-of-australia-180986668/",
+                    "source": "Smithsonian Magazine",
+                    "isLie": false
+                },
+                {
+                    "title": "Coastguard issues warning after 'barbell diving' trend resurfaces among vacationers on social media",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "Scientists sent viruses to space and they evolved in surprising ways",
+                    "url": "https://www.sciencedaily.com/releases/2026/01/260118064637.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "headlines": [
+                {
+                    "title": "The French government says it's being targeted by unusual intense cyberattacks",
+                    "url": "https://abcnews.go.com/International/wireStory/french-government-targeted-unusual-intense-cyberattacks-108019084",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "Rare 1-in-100-Million 'Cotton Candy' Lobster Found off the Coast of New Hampshire",
+                    "url": "https://www.smithsonianmag.com/smart-news/rare-1-in-100-million-cotton-candy-lobster-found-off-the-coast-of-new-hampshire-180984814/",
+                    "source": "Smithsonian Magazine",
+                    "isLie": false
+                },
+                {
+                    "title": "Postal service apologizes after automated sorter stamps 'CONFIDENTIAL' on thousands of postcards",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "Astronomers measure the mass of a rogue planet drifting through the galaxy",
+                    "url": "https://www.sciencedaily.com/releases/2026/01/260101160859.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "headlines": [
+                {
+                    "title": "UK police reviewing rapper's anti-Israel comments at Glastonbury Festival",
+                    "url": "https://abcnews.go.com/International/wireStory/uk-police-reviewing-rappers-anti-israel-comments-glastonbury-123315990",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "Astronomers find a ghost galaxy made of dark matter",
+                    "url": "https://www.sciencedaily.com/releases/2026/01/260109220500.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                },
+                {
+                    "title": "Festival organizers quietly add 'no drone light shows over campsites' clause after repeated midnight incidents",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "Those strange red dots in James Webb images finally have an explanation",
+                    "url": "https://www.sciencedaily.com/releases/2026/01/260115022801.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "headlines": [
+                {
+                    "title": "Rescuers hunt Red Sea crew as US says Yemen rebels may be holding them",
+                    "url": "https://abcnews.go.com/International/wireStory/rescuers-search-missing-crew-red-sea-attack-us-123635149",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "Astronomers stunned by the strangest supernova ever seen",
+                    "url": "https://www.sciencedaily.com/releases/2025/08/250821004234.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                },
+                {
+                    "title": "Aid groups report 'phantom radio stations' broadcasting evacuation instructions on open frequencies, origin unknown",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "A strange star near a black hole is defying expectations",
+                    "url": "https://www.sciencedaily.com/releases/2025/12/251225080730.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "headlines": [
+                {
+                    "title": "Newly Discovered Hybrid Pythons Are Threatening Florida’s Wildlife",
+                    "url": "https://www.smithsonianmag.com/smart-news/newly-discovered-hybrid-pythons-are-threatening-floridas-wildlife-180970178/",
+                    "source": "Smithsonian Magazine",
+                    "isLie": false
+                },
+                {
+                    "title": "Researchers Find Rare 17-Pound Meteorite in Antarctic Ice",
+                    "url": "https://www.smithsonianmag.com/smart-news/rare-17-pound-meteorite-found-in-antarctica-180981500/",
+                    "source": "Smithsonian Magazine",
+                    "isLie": false
+                },
+                {
+                    "title": "Wildlife officials confirm hybrid python sightings were caused by mislabeled zoo records; population remains Burmese-only",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "Scientists discover a hidden deep sea hotspot bursting with life",
+                    "url": "https://www.sciencedaily.com/releases/2025/11/251125081928.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "headlines": [
+                {
+                    "title": "A woman tried to call her mom in Iran. A robotic voice answered the phone",
+                    "url": "https://abcnews.go.com/International/wireStory/woman-call-mom-iran-robotic-voice-answered-phone-123058148",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "Unusual bee attack in French town leaves 24 injured, 3 critically",
+                    "url": "https://abcnews.go.com/International/wireStory/unusual-bee-attack-french-town-leaves-24-injured-123528832",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "Phone companies start routing international calls through 'verification voices' to deter harassment, alarming families",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "Voodoo doll, whoopie cushion, denture powder among bizarre trash plucked from New Jersey beaches",
+                    "url": "https://abcnews.go.com/US/wireStory/voodoo-doll-whoopie-cushion-denture-powder-bizarre-trash-108858285",
+                    "source": "ABC News",
+                    "isLie": false
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "headlines": [
+                {
+                    "title": "Astronauts may be able to make cement using their own pee",
+                    "url": "https://www.sciencenews.org/article/astronauts-lunar-exploration-cement-urine-urea-3d-printing",
+                    "source": "Science News",
+                    "isLie": false
+                },
+                {
+                    "title": "Officials Discover Radioactive Wasp Nests at Facility That Once Produced Parts of Nuclear Weapons in South Carolina",
+                    "url": "https://www.smithsonianmag.com/smart-news/officials-discover-radioactive-wasp-nests-at-facility-that-once-produced-parts-of-nuclear-weapons-in-south-carolina-180987099/",
+                    "source": "Smithsonian Magazine",
+                    "isLie": false
+                },
+                {
+                    "title": "Space agency confirms it will recycle astronauts' hair into insulation for lunar habitats",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "A New, Shape-Shifting 'Flapjack' Octopus Has Been Discovered in the Deep Sea Off the Coast of Australia",
+                    "url": "https://www.smithsonianmag.com/smart-news/a-new-shape-shifting-dumbo-octopus-has-been-discovered-in-the-deep-sea-off-the-coast-of-australia-180986668/",
+                    "source": "Smithsonian Magazine",
+                    "isLie": false
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "headlines": [
+                {
+                    "title": "Gleaming monolith pops up in Nevada desert, the latest in a series of quickly vanishing structures",
+                    "url": "https://abcnews.go.com/US/wireStory/gleaming-monolith-pops-nevada-desert-latest-series-quickly-111222584",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "Rare Photograph of Billy the Kid Found at a Flea Market",
+                    "url": "https://www.smithsonianmag.com/smart-news/found-rare-photograph-billy-kid-180967259/",
+                    "source": "Smithsonian Magazine",
+                    "isLie": false
+                },
+                {
+                    "title": "National park installs 'monolith hotline' so hikers can report suspicious metal art without starting a social media stampede",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "This Eye-Catching Rattlesnake Found in Arizona Has Unusual 'Leopard Spots,' Likely From a Genetic Mutation",
+                    "url": "https://www.smithsonianmag.com/smart-news/this-eye-catching-rattlesnake-found-in-arizona-has-unusual-leopard-spots-likely-from-a-genetic-mutation-180986641/",
+                    "source": "Smithsonian Magazine",
+                    "isLie": false
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "headlines": [
+                {
+                    "title": "A science journal pulled a controversial study about a bizarre life form against the authors' wishes",
+                    "url": "https://abcnews.go.com/Technology/wireStory/science-journal-pulled-controversial-study-bizarre-life-form-124078391",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "Bizarre psychological warfare using K-pop and trash balloons raises tensions between the 2 Koreas",
+                    "url": "https://abcnews.go.com/International/wireStory/bizarre-psychological-warfare-pop-trash-balloons-raises-tensions-111009570",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "Neighboring countries agree to ban 'propaganda playlists' within 5 miles of the border after loudspeaker dispute",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "Unusual bee attack in French town leaves 24 injured, 3 critically",
+                    "url": "https://abcnews.go.com/International/wireStory/unusual-bee-attack-french-town-leaves-24-injured-123528832",
+                    "source": "ABC News",
+                    "isLie": false
+                }
+            ]
+        },
+        {
+            "id": 16,
+            "headlines": [
+                {
+                    "title": "Astronomers discover strange new celestial object in Milky Way galaxy",
+                    "url": "https://abcnews.go.com/Technology/wireStory/astronomers-discover-strange-new-celestial-object-milky-galaxy-122269874",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "Scientists discover a hidden deep sea hotspot bursting with life",
+                    "url": "https://www.sciencedaily.com/releases/2025/11/251125081928.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                },
+                {
+                    "title": "Astronomers admit new 'mystery object' was caused by a misconfigured telescope clock, not a celestial signal",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "Scientists discover 14 strange new species hidden in the deep sea",
+                    "url": "https://www.sciencedaily.com/releases/2025/11/251102011213.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                }
+            ]
+        },
+        {
+            "id": 17,
+            "headlines": [
+                {
+                    "title": "Mosquitoes can be extra-bitey in droughts",
+                    "url": "https://www.sciencedaily.com/releases/2025/01/250115165246.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                },
+                {
+                    "title": "A man’s 'mysteriously young mammoth' fossils turn out to be whale bones",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "Rare disease drug nitisinone makes human blood deadly to mosquitoes",
+                    "url": "https://www.sciencedaily.com/releases/2025/03/250326154420.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                },
+                {
+                    "title": "A strange star near a black hole is defying expectations",
+                    "url": "https://www.sciencedaily.com/releases/2025/12/251225080730.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                }
+            ]
+        },
+        {
+            "id": 18,
+            "headlines": [
+                {
+                    "title": "The most shocking, unusual and WTF moments of 2025",
+                    "url": "https://news.sky.com/story/the-most-shocking-unusual-and-wtf-moments-of-2025-13484181",
+                    "source": "Sky News",
+                    "isLie": false
+                },
+                {
+                    "title": "Rare 1-in-100-Million 'Cotton Candy' Lobster Found off the Coast of New Hampshire",
+                    "url": "https://www.smithsonianmag.com/smart-news/rare-1-in-100-million-cotton-candy-lobster-found-off-the-coast-of-new-hampshire-180984814/",
+                    "source": "Smithsonian Magazine",
+                    "isLie": false
+                },
+                {
+                    "title": "Theme park launches 'lobster color lottery' exhibit claiming visitors can 'predict' rare shell mutations from barometric pressure",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "UK police reviewing rapper's anti-Israel comments at Glastonbury Festival",
+                    "url": "https://abcnews.go.com/International/wireStory/uk-police-reviewing-rappers-anti-israel-comments-glastonbury-123315990",
+                    "source": "ABC News",
+                    "isLie": false
+                }
+            ]
+        },
+        {
+            "id": 19,
+            "headlines": [
+                {
+                    "title": "A never-before-seen creature has been found in the Great Salt Lake",
+                    "url": "https://www.sciencedaily.com/releases/2026/01/260110211227.htm",
+                    "source": "ScienceDaily",
+                    "isLie": false
+                },
+                {
+                    "title": "Officials Discover Radioactive Wasp Nests at Facility That Once Produced Parts of Nuclear Weapons in South Carolina",
+                    "url": "https://www.smithsonianmag.com/smart-news/officials-discover-radioactive-wasp-nests-at-facility-that-once-produced-parts-of-nuclear-weapons-in-south-carolina-180987099/",
+                    "source": "Smithsonian Magazine",
+                    "isLie": false
+                },
+                {
+                    "title": "Researchers Find Rare 17-Pound Meteorite in Antarctic Ice",
+                    "url": "https://www.smithsonianmag.com/smart-news/rare-17-pound-meteorite-found-in-antarctica-180981500/",
+                    "source": "Smithsonian Magazine",
+                    "isLie": false
+                },
+                {
+                    "title": "Scientists say Great Salt Lake’s new worm may have arrived via tourists’ muddy boots, prompting calls for shoe-wash stations",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                }
+            ]
+        },
+        {
+            "id": 20,
+            "headlines": [
+                {
+                    "title": "A woman tried to call her mom in Iran. A robotic voice answered the phone",
+                    "url": "https://abcnews.go.com/International/wireStory/woman-call-mom-iran-robotic-voice-answered-phone-123058148",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "A science journal pulled a controversial study about a bizarre life form against the authors' wishes",
+                    "url": "https://abcnews.go.com/Technology/wireStory/science-journal-pulled-controversial-study-bizarre-life-form-124078391",
+                    "source": "ABC News",
+                    "isLie": false
+                },
+                {
+                    "title": "UN agency adds 'AI voice impersonation during crises' to official emergency warning checklist",
+                    "url": "",
+                    "source": "Fake News",
+                    "isLie": true
+                },
+                {
+                    "title": "Rare Photograph of Billy the Kid Found at a Flea Market",
+                    "url": "https://www.smithsonianmag.com/smart-news/found-rare-photograph-billy-kid-180967259/",
+                    "source": "Smithsonian Magazine",
+                    "isLie": false
+                }
+            ]
         }
-      ]
-    },
-    {
-      "id": 2,
-      "headlines": [
-        {
-          "title": "Brand New Species of Worm Discovered Living in Great Salt Lake's Extreme Salinity",
-          "url": "https://www.sciencedaily.com/releases/2026/01/260110211227.htm",
-          "source": "Science Daily",
-          "isLie": false
-        },
-        {
-          "title": "Local Library Fines Now Payable in Interpretive Dance Performances",
-          "url": "",
-          "source": "Fake News",
-          "isLie": true
-        },
-        {
-          "title": "Parrot Solves 15-Year-Old Cold Case Murder by Repeatedly Saying Suspect's Name",
-          "url": "https://probrainrot.com/bizarre-oddball-news/october-unusual-news-bizarre-2025/",
-          "source": "Pro Brain Rot",
-          "isLie": false
-        },
-        {
-          "title": "500-Pound Black Bear Squatting in Crawl Space Under California Home Refuses to Leave",
-          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
-          "source": "Patch",
-          "isLie": false
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "headlines": [
-        {
-          "title": "Missing Flight Attendant Found Dancing Naked in British Airways Business Class Washroom",
-          "url": "https://www.youtube.com/watch?v=qlwIvfw1XXo",
-          "source": "What a Weird Week",
-          "isLie": false
-        },
-        {
-          "title": "Giant Phantom Jellyfish 33 Feet Long Captured on Camera for First Time",
-          "url": "https://www.youtube.com/watch?v=O9xm8SFyGaY",
-          "source": "What a Weird Week",
-          "isLie": false
-        },
-        {
-          "title": "Dentists Announce Teeth Now Eligible for Frequent Flyer Miles",
-          "url": "",
-          "source": "Fake News",
-          "isLie": true
-        },
-        {
-          "title": "Quantum Mystery Solved: Scientists Discover Emergent Photons in 3D Quantum Spin Liquid",
-          "url": "https://www.sciencedaily.com/releases/2025/12/251217082509.htm",
-          "source": "Science Daily",
-          "isLie": false
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "headlines": [
-        {
-          "title": "Woman Wakes Up Alive in Her Own Coffin Just Before Burial in Thailand",
-          "url": "https://en.yenisafak.com/world/year-in-review-the-bizarre-and-shocking-headlines-of-2025-3712671",
-          "source": "Yeni Safak",
-          "isLie": false
-        },
-        {
-          "title": "Star Near Black Hole Spinning Faster Than It Should, May Have Merged With Another Star",
-          "url": "https://www.sciencedaily.com/releases/2025/12/251225080730.htm",
-          "source": "Science Daily",
-          "isLie": false
-        },
-        {
-          "title": "Dog Undergoes Surgery to Remove 44 Items Including 24 Socks From Its Intestines",
-          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
-          "source": "Patch",
-          "isLie": false
-        },
-        {
-          "title": "Scientists Prove That Yawning Is Actually Your Body Attempting to Install Software Updates",
-          "url": "",
-          "source": "Fake News",
-          "isLie": true
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "headlines": [
-        {
-          "title": "Two Bald Eagles Locked in Talons Battle From Sky to Ground, Refuse to Let Go",
-          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
-          "source": "Patch",
-          "isLie": false
-        },
-        {
-          "title": "New Study Finds That Looking Both Ways Before Crossing Street Confuses Cars Into Not Moving",
-          "url": "",
-          "source": "Fake News",
-          "isLie": true
-        },
-        {
-          "title": "Coyote Yanked by Tail From Aldi Refrigerator Shelves After Hiding in Produce Section",
-          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
-          "source": "Patch",
-          "isLie": false
-        },
-        {
-          "title": "Scientists May Have Extracted Leonardo da Vinci's DNA From Renaissance Drawing",
-          "url": "https://www.livescience.com/health/genetics/leonardo-da-vincis-dna-may-be-embedded-in-his-art-and-scientists-think-theyve-managed-to-extract-some",
-          "source": "Live Science",
-          "isLie": false
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "headlines": [
-        {
-          "title": "Hikers on Psilocybin Mushrooms Hallucinate Friend's Death, Call 911 on Alive Person",
-          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
-          "source": "Patch",
-          "isLie": false
-        },
-        {
-          "title": "Man Discovers He's Been Legally Dead for 5 Years, Struggles to Prove He's Alive",
-          "url": "https://probrainrot.com/bizarre-oddball-news/weird-news-stories-2025/",
-          "source": "Pro Brain Rot",
-          "isLie": false
-        },
-        {
-          "title": "First Baby Born in Italian Village in Almost 30 Years",
-          "url": "https://www.uexpress.com/oddities/news-of-the-weird/2026/01/02",
-          "source": "The Guardian",
-          "isLie": false
-        },
-        {
-          "title": "Grocery Stores Now Offering 'Express Lane' for Customers Who Only Need to Complain",
-          "url": "",
-          "source": "Fake News",
-          "isLie": true
-        }
-      ]
-    },
-    {
-      "id": 7,
-      "headlines": [
-        {
-          "title": "Mirrors Nationwide Begin Showing People as They Actually Look, Causing Mass Panic",
-          "url": "",
-          "source": "Fake News",
-          "isLie": true
-        },
-        {
-          "title": "Massachusetts Woman Racks Up Thousands in Medical Bills After Bat Flies Into Her Mouth",
-          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
-          "source": "Patch",
-          "isLie": false
-        },
-        {
-          "title": "Michigan Man Dies of Rabies After Contracting Disease From Organ Transplant",
-          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
-          "source": "Patch",
-          "isLie": false
-        },
-        {
-          "title": "Drunk Thief Returns Stolen Mandolins With Note Reading 'SORRY, I BEEN DRUNK, MERRY CHRISTMAS'",
-          "url": "https://abcnews.go.com/US/drunk-thief-returns-stolen-mandolins-new-jersey-guitar/story?id=128748055",
-          "source": "ABC News",
-          "isLie": false
-        }
-      ]
-    },
-    {
-      "id": 8,
-      "headlines": [
-        {
-          "title": "Kayakers Film 'Raining Monkeys' as Dozens of Macaques Dive From Trees Into Florida River",
-          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
-          "source": "Patch",
-          "isLie": false
-        },
-        {
-          "title": "Goldfish the Size of Football Found After Growing to Ginormous Proportions in Wild",
-          "url": "https://patch.com/us/across-america/22-offbeat-stories-made-us-face-palm-2025-weird-news-oddities",
-          "source": "U.S. Fish and Wildlife",
-          "isLie": false
-        },
-        {
-          "title": "Traffic Lights Admit They've Been Guessing This Whole Time",
-          "url": "",
-          "source": "Fake News",
-          "isLie": true
-        },
-        {
-          "title": "Lottery Winner Discovers $14 Million Ticket in Old Jacket 5 Years Later, Still Valid",
-          "url": "https://probrainrot.com/bizarre-oddball-news/october-unusual-news-bizarre-2025/",
-          "source": "Pro Brain Rot",
-          "isLie": false
-        }
-      ]
-    },
-    {
-      "id": 9,
-      "headlines": [
-        {
-          "title": "Entire Town's Clocks Stop Simultaneously at 3:47 AM in Scottish Village",
-          "url": "https://probrainrot.com/bizarre-oddball-news/october-unusual-news-bizarre-2025/",
-          "source": "Pro Brain Rot",
-          "isLie": false
-        },
-        {
-          "title": "Archaeological Dig Uncovers Modern iPhone in 2,000-Year-Old Sealed Chamber",
-          "url": "https://probrainrot.com/bizarre-oddball-news/october-unusual-news-bizarre-2025/",
-          "source": "Pro Brain Rot",
-          "isLie": false
-        },
-        {
-          "title": "Thousands of Mysterious Old-Fashioned Shoes Wash Up on Beach in Wales",
-          "url": "https://www.foxnews.com/category/odd-news",
-          "source": "Fox News",
-          "isLie": false
-        },
-        {
-          "title": "Scientists Confirm That 'Five More Minutes' of Sleep Actually Equals 47 Seconds",
-          "url": "",
-          "source": "Fake News",
-          "isLie": true
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "headlines": [
-        {
-          "title": "Cat Re-Elected Mayor for Fourth Term With 87% Approval Rating in California Town",
-          "url": "https://probrainrot.com/bizarre-oddball-news/october-unusual-news-bizarre-2025/",
-          "source": "Pro Brain Rot",
-          "isLie": false
-        },
-        {
-          "title": "Entire Office of 47 Employees Quits Simultaneously During Single Meeting",
-          "url": "https://probrainrot.com/bizarre-oddball-news/october-unusual-news-bizarre-2025/",
-          "source": "Pro Brain Rot",
-          "isLie": false
-        },
-        {
-          "title": "Breaking: Socks Officially Declare Independence From Dryers, Form Sovereign Nation",
-          "url": "",
-          "source": "Fake News",
-          "isLie": true
-        },
-        {
-          "title": "Missing Wallaby Spotted in Walmart Parking Lot After Hopping Away From New Jersey Farm",
-          "url": "https://www.foxnews.com/category/odd-news",
-          "source": "Fox News",
-          "isLie": false
-        }
-      ]
-    }
-  ]
+    ]
 }
