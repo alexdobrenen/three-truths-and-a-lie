@@ -148,7 +148,7 @@ function Dashboard() {
   return (
     <div className="dashboard-container">
       <button className="back-to-home-button" onClick={() => navigate('/')}>
-        Back to Home
+        Home
       </button>
       <div className="dashboard-header">
         <h1>Game Statistics</h1>
