@@ -34,11 +34,14 @@
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 3rem;
+  padding-right: 120px;
 }
 
 .dashboard-header h1 {
   font-size: 2.5rem;
   color: #fff;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .stats-section {
