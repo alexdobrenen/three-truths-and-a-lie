@@ -16,10 +16,6 @@ DELETE FROM game_participants;
 -- Delete game sessions
 DELETE FROM game_sessions;
 
--- Delete teams
-DELETE FROM teams;
-
--- Note: players table is NOT deleted as per your request
 
 -- Verify the deletions
 SELECT 'player_guesses' as table_name, COUNT(*) as remaining_rows FROM player_guesses
@@ -29,7 +25,5 @@ UNION ALL
 SELECT 'game_participants', COUNT(*) FROM game_participants
 UNION ALL
 SELECT 'game_sessions', COUNT(*) FROM game_sessions
-UNION ALL
-SELECT 'teams', COUNT(*) FROM teams
 UNION ALL
 SELECT 'players', COUNT(*) FROM players;
