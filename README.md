@@ -1,21 +1,19 @@
 # Three Truths and a Lie - Team Game
 
-A React/TypeScript web application for playing Three Truths and a Lie with teams, featuring real news articles and progress tracking.
+A React/TypeScript web application for playing Three Truths and a Lie with real news articles and AI-generated fake headlines.
 
 ## Features
 
 - QR code generation for easy game access
-- Team-based player management
-- Real-time news article integration
+- Real-time multiplayer gameplay
+- Pre-curated news articles with AI-generated lies
 - 1-minute timed rounds
-- Score tracking and historical data
-- Team progress dashboard
+- Player statistics and last game results
+- Dark mode UI
 
 ## Quick Start
 
-See [SETUP.md](./SETUP.md) for detailed setup instructions.
-
-### Quick Setup
+### Setup
 
 1. Install dependencies:
 ```bash
@@ -25,7 +23,7 @@ npm install
 2. Set up Supabase:
    - Create a project at [supabase.com](https://supabase.com)
    - Run `supabase/schema.sql` in SQL Editor
-   - Optionally run `supabase/seed.sql` for sample teams
+   - Run `supabase/migration_simplify_articles.sql` for latest schema
 
 3. Configure environment:
 ```bash
@@ -44,24 +42,30 @@ The application will be available at `http://localhost:5173`
 
 The application uses the following tables:
 
-- `teams`: Stores team information
-- `players`: Stores player information linked to teams
+- `players`: Stores player information
 - `game_sessions`: Tracks individual game sessions
 - `game_participants`: Links players to game sessions
-- `game_rounds`: Stores the articles and answers for each round
-- `player_guesses`: Records player guesses and scores
-
-See `supabase/schema.sql` for the complete schema.
+- `game_rounds`: Stores articles in position order with correct answer
+- `player_guesses`: Records player guesses and correctness
 
 ## How to Play
 
 1. A host creates a new game session
 2. A QR code is displayed for players to scan and join
-3. Players select their team and enter their name
+3. Players enter their name
 4. Once all players have joined, the host starts the game
-5. The game presents 4 articles (3 true, 1 fake)
+5. The game presents 4 articles (3 true, 1 fake) from `headlines.json`
 6. Players have 1 minute to vote on which article is the lie
-7. Scores are calculated and progress is tracked over time
+7. Results are displayed with vote counts and correct answer
+8. View statistics on the Dashboard
+
+## Headlines
+
+Game content is managed in `public/headlines.json`. Each round contains:
+- 4 articles in a specific order
+- One article marked with `isLie: true`
+- URLs for true articles only
+- Each round can only be used once globally
 
 ## Tech Stack
 
@@ -70,4 +74,7 @@ See `supabase/schema.sql` for the complete schema.
 - Supabase (Backend & Database)
 - QRCode.react
 - React Router
-- News API
+
+## Deployment
+
+The app is configured for GitHub Pages deployment with SPA routing support.

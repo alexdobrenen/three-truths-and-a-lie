@@ -19,7 +19,7 @@ function GamePlay() {
   const [articles, setArticles] = useState<ArticleWithPosition[]>([]);
   const [selectedArticle, setSelectedArticle] = useState<number | null>(null);
   const [hasVoted, setHasVoted] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(30);
+  const [timeRemaining, setTimeRemaining] = useState(60);
   const [roundId, setRoundId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [showResults, setShowResults] = useState(false);
@@ -47,7 +47,7 @@ function GamePlay() {
       const startTime = new Date(roundStartTime).getTime();
       const currentTime = Date.now();
       const elapsedSeconds = Math.floor((currentTime - startTime) / 1000);
-      const remaining = Math.max(0, 30 - elapsedSeconds);
+      const remaining = Math.max(0, 60 - elapsedSeconds);
 
       setTimeRemaining(remaining);
 
