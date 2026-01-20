@@ -4,23 +4,13 @@ export interface Article {
   source: string;
 }
 
-interface NewsWithLie {
-  trueArticles: Article[];
-  lieArticle: string;
-  roundId: number;
+interface ArticleWithLie extends Article {
+  isLie: boolean;
 }
 
 interface HeadlineRound {
   id: number;
-  trueHeadlines: {
-    title: string;
-    url: string;
-    source: string;
-  }[];
-  fakeHeadline: {
-    title: string;
-    source: string;
-  };
+  headlines: ArticleWithLie[];
 }
 
 interface HeadlinesData {
@@ -51,43 +41,25 @@ async function loadHeadlines(): Promise<HeadlinesData> {
   return headlinesData!;
 }
 
-function shuffleArray<T>(array: T[]): T[] {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-}
-
-export async function fetchArticlesAndGenerateLie(usedRoundIds: number[] = []): Promise<NewsWithLie> {
+export async function fetchArticlesAndGenerateLie(usedRoundIds: number[] = []): Promise<{ articles: ArticleWithLie[], roundId: number }> {
   const data = await loadHeadlines();
 
-  // Filter out rounds that have already been used in this game
+  // Filter out rounds that have already been used
   const availableRounds = data.rounds.filter(round => !usedRoundIds.includes(round.id));
 
   if (availableRounds.length === 0) {
-    throw new Error('No more unused rounds available. All rounds have been used in this game.');
+    throw new Error('No more unused rounds available. All rounds have been used.');
   }
 
   // Select a random round from the available ones
   const randomIndex = Math.floor(Math.random() * availableRounds.length);
   const round = availableRounds[randomIndex];
 
-  console.log(`📰 Using round ${round.id} (${usedRoundIds.length} rounds already used)`);
-
-  // Shuffle the true articles to randomize their order
-  const shuffledTrueHeadlines = shuffleArray(round.trueHeadlines);
-
-  const trueArticles: Article[] = shuffledTrueHeadlines.map((headline) => ({
-    title: headline.title,
-    url: headline.url,
-    source: headline.source,
-  }));
+  console.log(`📰 Using round ${round.id} (${usedRoundIds.length} rounds already used globally)`);
+  console.log(`📰 Headlines in order:`, round.headlines.map((h, i) => `${i + 1}. ${h.title.substring(0, 40)}... (${h.isLie ? 'LIE' : 'TRUE'})`));
 
   return {
-    trueArticles,
-    lieArticle: round.fakeHeadline.title,
+    articles: round.headlines,
     roundId: round.id,
   };
 }

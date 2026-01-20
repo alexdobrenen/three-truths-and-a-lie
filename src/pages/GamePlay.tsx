@@ -139,15 +139,45 @@ function GamePlay() {
         setCorrectAnswer(existingRound.correct_answer);
         setRoundStartTime(existingRound.started_at);
 
+        // Load all 4 articles in their stored order (positions 1-4)
         const fetchedArticles = [
-          { title: existingRound.true_article_1, url: existingRound.true_article_1_url, position: 1, isLie: false, source: '' },
-          { title: existingRound.true_article_2, url: existingRound.true_article_2_url, position: 2, isLie: false, source: '' },
-          { title: existingRound.true_article_3, url: existingRound.true_article_3_url, position: 3, isLie: false, source: '' },
-          { title: existingRound.lie_article, url: '', position: 4, isLie: false, source: '' },
+          {
+            title: existingRound.article_1_title,
+            url: existingRound.article_1_url || '',
+            position: 1,
+            isLie: existingRound.correct_answer === 1,
+            source: ''
+          },
+          {
+            title: existingRound.article_2_title,
+            url: existingRound.article_2_url || '',
+            position: 2,
+            isLie: existingRound.correct_answer === 2,
+            source: ''
+          },
+          {
+            title: existingRound.article_3_title,
+            url: existingRound.article_3_url || '',
+            position: 3,
+            isLie: existingRound.correct_answer === 3,
+            source: ''
+          },
+          {
+            title: existingRound.article_4_title,
+            url: existingRound.article_4_url || '',
+            position: 4,
+            isLie: existingRound.correct_answer === 4,
+            source: ''
+          },
         ];
 
-        fetchedArticles[existingRound.correct_answer - 1].isLie = true;
-        console.log('📰 Articles with isLie flags:', fetchedArticles.map(a => ({ position: a.position, title: a.title.substring(0, 30), isLie: a.isLie })));
+        console.log('📰 Loaded articles in order:', fetchedArticles.map(a => ({
+          position: a.position,
+          title: a.title.substring(0, 30),
+          isLie: a.isLie,
+          url: a.url ? a.url.substring(0, 20) : 'EMPTY'
+        })));
+
         setArticles(fetchedArticles);
         setLoading(false);
         setRoundInitialized(true);
@@ -177,21 +207,18 @@ function GamePlay() {
       console.log(`📊 Unique rounds used:`, [...new Set(usedRoundIds)]);
 
       // Fetch articles first before attempting database insert
-      const { trueArticles, lieArticle, roundId: headlinesRoundId } = await fetchArticlesAndGenerateLie(usedRoundIds);
-      console.log('Articles fetched:', trueArticles.length, 'true articles');
-      console.log('Fake headline generated:', lieArticle);
+      const { articles, roundId: headlinesRoundId } = await fetchArticlesAndGenerateLie(usedRoundIds);
+      console.log('Articles fetched:', articles.length, 'articles including the lie');
       console.log('Using headlines round ID:', headlinesRoundId);
 
-      const allArticles = [
-        ...trueArticles,
-        { title: lieArticle, url: '', source: 'AI Generated' },
-      ];
+      // Find which position has the lie (1-4)
+      const liePosition = articles.findIndex((a) => a.isLie) + 1;
 
-      const shuffled = shuffleArray(allArticles);
-      const liePosition = shuffled.findIndex((a) => a.url === '') + 1;
-
-      console.log('🔀 Shuffled articles:', shuffled.map((a, i) => ({ position: i + 1, title: a.title, isLie: a.url === '' })));
       console.log('✅ Lie position:', liePosition);
+      console.log('📝 Articles in JSON order:', articles.map((a, i) => ({ position: i + 1, title: a.title.substring(0, 30), isLie: a.isLie, url: a.url ? a.url.substring(0, 20) : 'EMPTY' })));
+
+      // Save all 4 articles in their exact JSON order (positions 1-4)
+      console.log('📝 Saving articles in order to DB positions 1-4');
 
       // Try to insert the round with better conflict handling
       const maxRetries = 3;
@@ -205,13 +232,14 @@ function GamePlay() {
             .insert({
               game_session_id: gameId,
               round_number: 1,
-              true_article_1: shuffled[0].title,
-              true_article_1_url: shuffled[0].url || 'none',
-              true_article_2: shuffled[1].title,
-              true_article_2_url: shuffled[1].url || 'none',
-              true_article_3: shuffled[2].title,
-              true_article_3_url: shuffled[2].url || 'none',
-              lie_article: shuffled[3].title,
+              article_1_title: articles[0].title,
+              article_1_url: articles[0].url || '',
+              article_2_title: articles[1].title,
+              article_2_url: articles[1].url || '',
+              article_3_title: articles[2].title,
+              article_3_url: articles[2].url || '',
+              article_4_title: articles[3].title,
+              article_4_url: articles[3].url || '',
               correct_answer: liePosition,
               headlines_round_id: headlinesRoundId,
             })
@@ -262,26 +290,46 @@ function GamePlay() {
       setCorrectAnswer(round.correct_answer);
       setRoundStartTime(round.started_at);
 
-      // If we used an existing round, reconstruct articles from it
-      if (round.true_article_1 !== shuffled[0].title) {
-        const reconstructedArticles = [
-          { title: round.true_article_1, url: round.true_article_1_url, position: 1, isLie: false, source: '' },
-          { title: round.true_article_2, url: round.true_article_2_url, position: 2, isLie: false, source: '' },
-          { title: round.true_article_3, url: round.true_article_3_url, position: 3, isLie: false, source: '' },
-          { title: round.lie_article, url: '', position: 4, isLie: false, source: '' },
-        ];
-        reconstructedArticles[round.correct_answer - 1].isLie = true;
-        setArticles(reconstructedArticles);
-      } else {
-        setArticles(
-          shuffled.map((article, index) => ({
-            ...article,
-            position: index + 1,
-            isLie: article.url === '',
-          }))
-        );
-      }
+      // Load all 4 articles in their stored order (positions 1-4)
+      const finalArticles = [
+        {
+          title: round.article_1_title,
+          url: round.article_1_url || '',
+          position: 1,
+          isLie: round.correct_answer === 1,
+          source: ''
+        },
+        {
+          title: round.article_2_title,
+          url: round.article_2_url || '',
+          position: 2,
+          isLie: round.correct_answer === 2,
+          source: ''
+        },
+        {
+          title: round.article_3_title,
+          url: round.article_3_url || '',
+          position: 3,
+          isLie: round.correct_answer === 3,
+          source: ''
+        },
+        {
+          title: round.article_4_title,
+          url: round.article_4_url || '',
+          position: 4,
+          isLie: round.correct_answer === 4,
+          source: ''
+        },
+      ];
 
+      console.log('📰 Final articles for display:', finalArticles.map(a => ({
+        position: a.position,
+        title: a.title.substring(0, 30),
+        isLie: a.isLie,
+        url: a.url ? a.url.substring(0, 20) : 'EMPTY'
+      })));
+
+      setArticles(finalArticles);
       console.log('Articles set, loading complete');
       setLoading(false);
       setRoundInitialized(true);
@@ -428,14 +476,6 @@ function GamePlay() {
   };
 
 
-  const shuffleArray = <T,>(array: T[]): T[] => {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-  };
 
   if (loading) {
     return (
@@ -487,7 +527,17 @@ function GamePlay() {
           >
             <div className="article-number">Article {article.position}</div>
             <h3 className="article-title">{article.title}</h3>
-            {article.url && article.url !== 'none' && showResults && !article.isLie && (
+            {(() => {
+              const shouldShow = article.url && article.url !== 'none' && article.url !== '' && showResults && !article.isLie;
+              console.log(`Article ${article.position} link check:`, {
+                hasUrl: !!article.url,
+                url: article.url,
+                showResults,
+                isLie: article.isLie,
+                shouldShow
+              });
+              return shouldShow;
+            })() && (
               <a
                 href={article.url}
                 target="_blank"
